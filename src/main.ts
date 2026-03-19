@@ -8,14 +8,20 @@ import { renderResultsScreen } from './screens/results';
 import { renderSettingsScreen } from './screens/settings';
 import { createDemoBeatmap, createEasyDemoBeatmap } from './beatmaps/demo';
 import { loadCustomBeatmap } from './beatmaps/customLoader';
-import type { GameState } from './engine/types';
+import type { Beatmap, GameState } from './engine/types';
 import './style.css';
+
+/** Resolve a path relative to Vite's base URL. */
+function baseUrl(path: string): string {
+  return import.meta.env.BASE_URL + path;
+}
 
 class App {
   private container: HTMLElement;
   private game: Game | null = null;
   private demoAudioBuffer: AudioBuffer | null = null;
   private currentSong: SongEntry | null = null;
+  private loadedSongs: SongEntry[] = [];
 
   constructor() {
     this.container = document.querySelector<HTMLDivElement>('#app')!;
@@ -23,18 +29,57 @@ class App {
   }
 
   private async init(): Promise<void> {
+    // Generate demo audio
     const tempAudio = new AudioManager();
     this.demoAudioBuffer = tempAudio.generateDemoSong();
+
+    // Load real songs from songlist
+    await this.loadSongList();
+
     this.showTitle();
   }
 
-  /** Build song list based on current lane count setting. */
+  private async loadSongList(): Promise<void> {
+    try {
+      const resp = await fetch(baseUrl('beatmaps/songlist.json'));
+      const list: Array<{ easy: string; normal: string }> = await resp.json();
+
+      for (const entry of list) {
+        for (const [diff, path] of Object.entries(entry)) {
+          try {
+            const bmResp = await fetch(baseUrl(path));
+            const bm: Beatmap = await bmResp.json();
+            // Resolve audioFile relative to base
+            bm.audioFile = baseUrl(bm.audioFile);
+            this.loadedSongs.push({ beatmap: bm });
+          } catch (e) {
+            console.warn(`Failed to load beatmap: ${path}`, e);
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to load songlist.json, using demo songs only', e);
+    }
+  }
+
+  /** Build song list: real songs + procedural demo fallback */
   private buildSongList(): SongEntry[] {
     const lc = keyConfig.laneCount;
-    const songs: SongEntry[] = [
+    const songs: SongEntry[] = [...this.loadedSongs];
+
+    // Clamp loaded songs' lanes to current lane count
+    for (const entry of songs) {
+      for (const note of entry.beatmap.notes) {
+        if (note.lane >= lc) note.lane = lc - 1;
+      }
+    }
+
+    // Add procedural demo as fallback
+    songs.push(
       { beatmap: createDemoBeatmap(lc), audioBuffer: this.demoAudioBuffer! },
       { beatmap: createEasyDemoBeatmap(lc), audioBuffer: this.demoAudioBuffer! },
-    ];
+    );
+
     return songs;
   }
 
@@ -100,14 +145,12 @@ class App {
     const arrayBuf = await result.audioFile.arrayBuffer();
     const audioBuffer = await ctx.decodeAudioData(arrayBuf);
 
-    // Clamp custom beatmap lanes to current lane count
     const lc = keyConfig.laneCount;
     for (const note of result.beatmap.notes) {
       if (note.lane >= lc) note.lane = lc - 1;
     }
 
     songs.push({ beatmap: result.beatmap, audioBuffer });
-    // Re-render song select with updated list
     renderSongSelectScreen(
       this.container,
       songs,

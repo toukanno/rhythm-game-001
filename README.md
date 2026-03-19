@@ -130,6 +130,18 @@ src/
     └── customLoader.ts  # カスタム譜面読み込み
 ```
 
+## 楽曲クレジット / Music Credits
+
+本ゲームに収録されている楽曲は [Tandess / Trial & Error](https://www.tandess.com/music/) の無料歌素材を使用しています。
+
+| 曲名 | ボーカル | 作曲 |
+|------|---------|------|
+| Eagle Ver.IO | IO | 阪神 総一 |
+| Fighter | 庄司 ひろの | 阪神 総一 |
+| KICK THE REGRET | 庄司 ひろの | 阪神 総一 |
+
+Music by Souichi Sakagami / [Tandess](https://www.tandess.com/music/)
+
 ## 拡張予定
 
 このプロジェクトは以下の機能を追加できるように設計されています：

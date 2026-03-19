@@ -23,6 +23,7 @@ export function renderTitleScreen(
         <button class="btn btn-primary pulse" id="btn-start">TAP TO START</button>
         <p class="title-hint">Desktop: ${keyHint}</p>
         <button class="btn btn-secondary btn-settings" id="btn-settings">SETTINGS</button>
+        <p class="title-credit">Music: <a href="https://www.tandess.com/music/" target="_blank">Tandess / Trial &amp; Error</a></p>
       </div>
     </div>
   `;
