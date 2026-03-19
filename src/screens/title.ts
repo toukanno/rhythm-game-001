@@ -19,7 +19,7 @@ export function renderTitleScreen(
           <span class="title-text">Rhythm<br>Striker</span>
           <span class="title-star">★</span>
         </h1>
-        <p class="title-sub">7-Lane Rhythm Game</p>
+        <p class="title-sub">${keyConfig.laneCount}-Lane Rhythm Game</p>
         <button class="btn btn-primary pulse" id="btn-start">TAP TO START</button>
         <p class="title-hint">Desktop: ${keyHint}</p>
         <button class="btn btn-secondary btn-settings" id="btn-settings">SETTINGS</button>
