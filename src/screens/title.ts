@@ -16,7 +16,7 @@ export function renderTitleScreen(
         </h1>
         <p class="title-sub">7-Lane Rhythm Game</p>
         <button class="btn btn-primary pulse" id="btn-start">TAP TO START</button>
-        <p class="title-hint">Desktop: S D F Space J K L</p>
+        <p class="title-hint">Desktop: A S D F J K L</p>
       </div>
     </div>
   `;

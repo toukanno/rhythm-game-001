@@ -81,8 +81,8 @@ export const SCORE_MAP: Record<Judgment, number> = {
 
 // Key bindings (desktop)
 export const KEY_BINDINGS: Record<string, number> = {
-  's': 0, 'd': 1, 'f': 2, ' ': 3, 'j': 4, 'k': 5, 'l': 6,
-  'S': 0, 'D': 1, 'F': 2, 'J': 4, 'K': 5, 'L': 6,
+  'a': 0, 's': 1, 'd': 2, 'f': 3, 'j': 4, 'k': 5, 'l': 6,
+  'A': 0, 'S': 1, 'D': 2, 'F': 3, 'J': 4, 'K': 5, 'L': 6,
 };
 
 // Colors per lane

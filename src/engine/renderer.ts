@@ -113,7 +113,7 @@ export class Renderer {
     }
 
     // Key labels at bottom
-    const keys = ['S', 'D', 'F', '⎵', 'J', 'K', 'L'];
+    const keys = ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
     ctx.font = `${Math.max(11, this.laneWidth * 0.22)}px monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
