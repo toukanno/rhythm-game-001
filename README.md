@@ -132,15 +132,11 @@ src/
 
 ## 楽曲クレジット / Music Credits
 
-本ゲームに収録されている楽曲は [Tandess / Trial & Error](https://www.tandess.com/music/) の無料歌素材を使用しています。
+本ゲームに収録されている全50曲は [Tandess / Trial & Error](https://www.tandess.com/music/) の無料歌素材を使用しています。
 
-| 曲名 | ボーカル | 作曲 |
-|------|---------|------|
-| Eagle Ver.IO | IO | 阪神 総一 |
-| Fighter | 庄司 ひろの | 阪神 総一 |
-| KICK THE REGRET | 庄司 ひろの | 阪神 総一 |
+作曲: 阪神 総一 (Souichi Sakagami) / [Tandess](https://www.tandess.com/music/)
 
-Music by Souichi Sakagami / [Tandess](https://www.tandess.com/music/)
+収録曲にはオリジナルボーカル曲のほか、初音ミク・GUMI・神威がくぽ・さとうささら等のボーカロイド楽曲も含まれています。各曲のEASY・NORMALの2難易度を収録。
 
 ## 拡張予定
 
