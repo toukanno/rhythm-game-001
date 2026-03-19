@@ -58,7 +58,8 @@ export interface GameState {
 export type ScreenType = 'title' | 'songSelect' | 'gameplay' | 'results';
 
 // ===== Game Config =====
-export const LANE_COUNT = 7;
+// NOTE: LANE_COUNT is kept for backward compat but runtime code should use keyConfig.laneCount
+export const LANE_COUNT = 7; // max lanes supported
 export const SCROLL_SPEED = 800; // pixels per second
 export const NOTE_APPEAR_TIME = 1500; // ms before hit time the note appears
 

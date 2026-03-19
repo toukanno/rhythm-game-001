@@ -1,7 +1,8 @@
 import {
-  LANE_COUNT, LANE_COLORS, JUDGMENT_COLORS,
+  LANE_COLORS, JUDGMENT_COLORS,
   type ActiveNote, type HitEffect, type Judgment,
 } from './types';
+import { keyConfig } from './keyConfig';
 
 /**
  * Handles all canvas rendering for the gameplay screen.
@@ -11,6 +12,8 @@ export class Renderer {
   private ctx: CanvasRenderingContext2D;
   private _width = 0;
   private _height = 0;
+
+  private get laneCount() { return keyConfig.laneCount; }
 
   // Layout constants (recalculated on resize)
   laneWidth = 0;
@@ -39,8 +42,8 @@ export class Renderer {
 
     // Calculate layout
     const maxPlayWidth = Math.min(this._width * 0.85, 560);
-    this.laneWidth = maxPlayWidth / LANE_COUNT;
-    this.playAreaWidth = this.laneWidth * LANE_COUNT;
+    this.laneWidth = maxPlayWidth / this.laneCount;
+    this.playAreaWidth = this.laneWidth * this.laneCount;
     this.playAreaLeft = (this._width - this.playAreaWidth) / 2;
     this.hitLineY = this._height - 120;
     this.noteHeight = Math.max(16, this.laneWidth * 0.35);
@@ -63,11 +66,11 @@ export class Renderer {
     this.ctx.fillRect(0, 0, this._width, this._height);
   }
 
-  drawLanes(pressedLanes: Set<number>): void {
+  drawLanes(pressedLanes: Set<number>, keyLabels?: string[]): void {
     const ctx = this.ctx;
 
     // Lane separators
-    for (let i = 0; i <= LANE_COUNT; i++) {
+    for (let i = 0; i <= this.laneCount; i++) {
       const x = this.getLaneX(i);
       ctx.strokeStyle = 'rgba(255,255,255,0.08)';
       ctx.lineWidth = 1;
@@ -86,7 +89,7 @@ export class Renderer {
     ctx.stroke();
 
     // Tap zones
-    for (let i = 0; i < LANE_COUNT; i++) {
+    for (let i = 0; i < this.laneCount; i++) {
       const x = this.getLaneX(i);
       const pressed = pressedLanes.has(i);
 
@@ -113,11 +116,11 @@ export class Renderer {
     }
 
     // Key labels at bottom
-    const keys = ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
+    const keys = keyLabels ?? ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
     ctx.font = `${Math.max(11, this.laneWidth * 0.22)}px monospace`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    for (let i = 0; i < LANE_COUNT; i++) {
+    for (let i = 0; i < this.laneCount; i++) {
       ctx.fillStyle = 'rgba(255,255,255,0.3)';
       ctx.fillText(keys[i], this.getLaneCenterX(i), this.hitLineY + 40);
     }

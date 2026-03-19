@@ -1,10 +1,11 @@
 import {
   type Beatmap, type ActiveNote, type HitEffect, type GameState, type Judgment,
-  TIMING, SCORE_MAP, SCROLL_SPEED, LANE_COUNT,
+  TIMING, SCORE_MAP, SCROLL_SPEED,
 } from './types';
 import { Renderer } from './renderer';
 import { AudioManager } from './audio';
 import { InputManager } from './input';
+import { keyConfig } from './keyConfig';
 
 export class Game {
   private renderer: Renderer;
@@ -82,7 +83,7 @@ export class Game {
       this.renderer['canvas'],
       (x: number) => {
         const lane = Math.floor((x - this.renderer.playAreaLeft) / this.renderer.laneWidth);
-        return Math.max(0, Math.min(LANE_COUNT - 1, lane));
+        return Math.max(0, Math.min(keyConfig.laneCount - 1, lane));
       },
       (lane, pressed) => this.onInput(lane, pressed),
     );
@@ -285,7 +286,7 @@ export class Game {
   private render(): void {
     const r = this.renderer;
     r.clear();
-    r.drawLanes(this.input.pressedLanes);
+    r.drawLanes(this.input.pressedLanes, keyConfig.labels);
 
     // Draw notes (only visible ones)
     for (const an of this.state.activeNotes) {

@@ -1,4 +1,4 @@
-import { KEY_BINDINGS, LANE_COUNT } from './types';
+import { keyConfig } from './keyConfig';
 
 export type InputCallback = (lane: number, pressed: boolean) => void;
 
@@ -56,7 +56,7 @@ export class InputManager {
 
   private onKeyDown = (e: KeyboardEvent): void => {
     if (e.repeat) return;
-    const lane = KEY_BINDINGS[e.key];
+    const lane = keyConfig.bindings[e.key];
     if (lane !== undefined) {
       e.preventDefault();
       this._pressedLanes.add(lane);
@@ -65,7 +65,7 @@ export class InputManager {
   };
 
   private onKeyUp = (e: KeyboardEvent): void => {
-    const lane = KEY_BINDINGS[e.key];
+    const lane = keyConfig.bindings[e.key];
     if (lane !== undefined) {
       this._pressedLanes.delete(lane);
       this.callback?.(lane, false);
@@ -81,7 +81,7 @@ export class InputManager {
       const touch = e.changedTouches[i];
       const x = touch.clientX - rect.left;
       const lane = this.getLaneFromX(x);
-      if (lane >= 0 && lane < LANE_COUNT) {
+      if (lane >= 0 && lane < keyConfig.laneCount) {
         this.activeTouches.set(touch.identifier, lane);
         this._pressedLanes.add(lane);
         this.callback?.(lane, true);
@@ -120,7 +120,7 @@ export class InputManager {
     const rect = this.canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const lane = this.getLaneFromX(x);
-    if (lane >= 0 && lane < LANE_COUNT) {
+    if (lane >= 0 && lane < keyConfig.laneCount) {
       this._pressedLanes.add(lane);
       this.callback?.(lane, true);
     }
