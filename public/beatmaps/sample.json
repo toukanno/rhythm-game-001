@@ -1,0 +1,19 @@
+{
+  "title": "Sample Custom Song",
+  "artist": "Your Name",
+  "difficulty": "NORMAL",
+  "bpm": 120,
+  "audioFile": "audio/your-song.mp3",
+  "offset": 0,
+  "notes": [
+    { "lane": 3, "time": 1000, "type": "tap" },
+    { "lane": 2, "time": 1500, "type": "tap" },
+    { "lane": 4, "time": 2000, "type": "tap" },
+    { "lane": 1, "time": 2500, "type": "tap" },
+    { "lane": 5, "time": 3000, "type": "tap" },
+    { "lane": 3, "time": 3500, "type": "hold", "duration": 1000 },
+    { "lane": 0, "time": 5000, "type": "flick" },
+    { "lane": 6, "time": 5500, "type": "flick" },
+    { "lane": 3, "time": 6000, "type": "tap" }
+  ]
+}

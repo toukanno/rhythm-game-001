@@ -1,0 +1,466 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0a1a;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  touch-action: none;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== Screen Container ===== */
+.screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff6b9d, #c44dff);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 30px rgba(255, 107, 157, 0.6);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Title Screen ===== */
+.title-screen {
+  justify-content: center;
+  position: relative;
+}
+
+.title-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(75, 0, 130, 0.2) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a1a, #1a1a3e);
+  animation: bgPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+.title-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.title-logo {
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.title-text {
+  background: linear-gradient(135deg, #ff6b9d, #c44dff, #4d96ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-star {
+  color: #ffeb3b;
+  font-size: 36px;
+  animation: starSpin 2s linear infinite;
+  display: inline-block;
+}
+
+@keyframes starSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.title-sub {
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 40px;
+  font-size: 14px;
+}
+
+.title-hint {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ===== Song Select ===== */
+.song-select-screen {
+  padding: 40px 20px;
+  gap: 20px;
+}
+
+.screen-title {
+  font-size: 24px;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+}
+
+.song-list {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.song-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.song-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 107, 157, 0.3);
+}
+
+.song-title {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.song-artist {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
+}
+
+.song-meta {
+  display: flex;
+  gap: 12px;
+}
+
+.song-diff {
+  background: linear-gradient(135deg, #ff6b9d, #c44dff);
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.song-bpm, .song-notes {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+}
+
+.btn-play {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ff6b9d, #c44dff);
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.btn-play:active {
+  transform: scale(0.93);
+}
+
+.custom-load-section {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.hint {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* ===== Gameplay ===== */
+.gameplay-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-pause {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* ===== Results ===== */
+.results-screen {
+  padding: 30px 20px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.result-song {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.result-rank {
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 1;
+  margin: 10px 0;
+}
+
+.rank-s { color: #ffeb3b; text-shadow: 0 0 30px rgba(255,235,59,0.5); }
+.rank-a { color: #ff9800; }
+.rank-b { color: #4caf50; }
+.rank-c { color: #2196f3; }
+.rank-d { color: #9e9e9e; }
+
+.result-score {
+  font-size: 36px;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.result-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+
+.result-stats {
+  display: flex;
+  gap: 40px;
+  margin: 10px 0;
+}
+
+.result-stat {
+  text-align: center;
+}
+
+.stat-val {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+.result-judgments {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 200px;
+  margin: 10px 0;
+}
+
+.result-judgment {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.rj-label {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.rj-label.perfect { color: #ffeb3b; }
+.rj-label.great { color: #ff9800; }
+.rj-label.good { color: #4caf50; }
+.rj-label.bad { color: #2196f3; }
+.rj-label.miss { color: #9e9e9e; }
+
+.rj-count {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.result-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #1e1e3a;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 450px;
+  width: 90%;
+}
+
+.modal h3 {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.modal p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.file-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.file-group label {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+}
+
+.file-group input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.beatmap-format-hint {
+  margin-top: 16px;
+}
+
+.beatmap-format-hint summary {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+.beatmap-format-hint pre {
+  margin-top: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .title-logo {
+    font-size: 36px;
+  }
+
+  .title-star {
+    font-size: 28px;
+  }
+
+  .btn {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+  .song-card {
+    padding: 12px 14px;
+  }
+
+  .song-title {
+    font-size: 15px;
+  }
+}
