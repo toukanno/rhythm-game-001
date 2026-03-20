@@ -1,6 +1,7 @@
 import { Game } from './engine/game';
 import { keyConfig } from './engine/keyConfig';
 import { renderTitleScreen } from './screens/title';
+import { renderLobbyScreen } from './screens/lobby';
 import { renderSongSelectScreen, type SongEntry } from './screens/songSelect';
 import { renderGameplayScreen } from './screens/gameplay';
 import { renderResultsScreen } from './screens/results';
@@ -18,6 +19,8 @@ class App {
   private game: Game | null = null;
   private currentSong: SongEntry | null = null;
   private loadedSongs: SongEntry[] = [];
+  private songsLoaded: boolean = false;
+  private songsLoadPromise: Promise<void> | null = null;
 
   constructor() {
     this.container = document.querySelector<HTMLDivElement>('#app')!;
@@ -25,8 +28,9 @@ class App {
   }
 
   private async init(): Promise<void> {
+    // Start loading songs immediately in background
+    this.songsLoadPromise = this.loadSongList();
     this.showTitle();
-    this.loadSongList();
   }
 
   private async loadSongList(): Promise<void> {
@@ -55,9 +59,23 @@ class App {
           this.loadedSongs.push({ beatmap: result.value });
         }
       }
+      this.songsLoaded = true;
     } catch (e) {
       console.warn('songlist.jsonの読み込みに失敗しました', e);
+      this.songsLoaded = true;
     }
+  }
+
+  /** Wait for songs to finish loading, showing a loading indicator */
+  private async waitForSongs(): Promise<void> {
+    if (this.songsLoaded) return;
+    // Show loading overlay
+    const loadingEl = document.createElement('div');
+    loadingEl.className = 'loading-overlay';
+    loadingEl.innerHTML = '<div class="loading-spinner"></div><p class="loading-text">楽曲データを読み込み中...</p>';
+    this.container.appendChild(loadingEl);
+    await this.songsLoadPromise;
+    loadingEl.remove();
   }
 
   private buildSongList(): SongEntry[] {
@@ -74,23 +92,33 @@ class App {
   private showTitle(): void {
     renderTitleScreen(
       this.container,
-      () => this.showSongSelect(),
+      () => this.showLobby(),
       () => this.showSettings(),
     );
   }
 
-  private showSettings(): void {
-    renderSettingsScreen(this.container, () => this.showTitle());
+  private showLobby(): void {
+    renderLobbyScreen(
+      this.container,
+      () => this.showSongSelect(),
+      () => this.showSettings(),
+      () => this.showTitle(),
+    );
   }
 
-  private showSongSelect(): void {
+  private showSettings(): void {
+    renderSettingsScreen(this.container, () => this.showLobby());
+  }
+
+  private async showSongSelect(): Promise<void> {
+    await this.waitForSongs();
     const songs = this.buildSongList();
     renderSongSelectScreen(
       this.container,
       songs,
       (entry) => this.startGame(entry),
       () => this.handleCustomLoad(songs),
-      () => this.showTitle(),  // back button → title
+      () => this.showLobby(),  // back button → lobby
     );
   }
 
@@ -166,7 +194,7 @@ class App {
       songs,
       (entry) => this.startGame(entry),
       () => this.handleCustomLoad(songs),
-      () => this.showTitle(),
+      () => this.showLobby(),
     );
   }
 }
