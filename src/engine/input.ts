@@ -91,8 +91,34 @@ export class InputManager {
 
   private onTouchMove = (e: TouchEvent): void => {
     e.preventDefault();
-    // For flick detection we could track movement, but basic implementation
-    // just updates which lane the touch is on
+    if (!this.canvas || !this.getLaneFromX) return;
+    const rect = this.canvas.getBoundingClientRect();
+
+    for (let i = 0; i < e.changedTouches.length; i++) {
+      const touch = e.changedTouches[i];
+      const x = touch.clientX - rect.left;
+      const newLane = this.getLaneFromX(x);
+      const oldLane = this.activeTouches.get(touch.identifier);
+
+      if (oldLane === undefined) continue;
+      if (newLane < 0 || newLane >= keyConfig.laneCount) continue;
+      if (newLane === oldLane) continue;
+
+      // Release old lane if no other touch is on it
+      this.activeTouches.set(touch.identifier, newLane);
+      let oldStillPressed = false;
+      for (const [, l] of this.activeTouches) {
+        if (l === oldLane) { oldStillPressed = true; break; }
+      }
+      if (!oldStillPressed) {
+        this._pressedLanes.delete(oldLane);
+        this.callback?.(oldLane, false);
+      }
+
+      // Press new lane
+      this._pressedLanes.add(newLane);
+      this.callback?.(newLane, true);
+    }
   };
 
   private onTouchEnd = (e: TouchEvent): void => {
