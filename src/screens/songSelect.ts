@@ -20,10 +20,14 @@ export function renderSongSelectScreen(
   songs: SongEntry[],
   onSelect: (entry: SongEntry) => void,
   onCustomLoad: () => void,
+  onBack?: () => void,
 ): void {
   container.innerHTML = `
     <div class="screen song-select-screen">
-      <h2 class="screen-title">曲を選ぶ</h2>
+      <div class="screen-header">
+        ${onBack ? '<button class="btn-back-nav" id="btn-back-nav">← 戻る</button>' : ''}
+        <h2 class="screen-title">曲を選ぶ</h2>
+      </div>
       <div class="song-list" id="song-list"></div>
       <div class="custom-load-section">
         <button class="btn btn-secondary" id="btn-custom">+ カスタム譜面を読み込む</button>
@@ -65,4 +69,5 @@ export function renderSongSelectScreen(
   });
 
   container.querySelector('#btn-custom')?.addEventListener('click', onCustomLoad);
+  container.querySelector('#btn-back-nav')?.addEventListener('click', () => onBack?.());
 }

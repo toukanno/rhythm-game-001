@@ -2,7 +2,7 @@ const STORAGE_KEY = 'rhythmStriker_keyBindings';
 const LANE_COUNT_KEY = 'rhythmStriker_laneCount';
 const OFFSET_KEY = 'rhythmStriker_timingOffset';
 
-const DEFAULT_KEYS_6 = ['s', 'd', 'f', 'j', 'k', 'l'];
+const DEFAULT_KEYS_6 = ['a', 's', 'd', 'j', 'k', 'l'];
 const DEFAULT_KEYS_7 = ['a', 's', 'd', 'f', 'j', 'k', 'l'];
 
 export type LaneCountOption = 6 | 7;

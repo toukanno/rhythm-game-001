@@ -1,15 +1,16 @@
 import type { GameState, Judgment } from '../engine/types';
-import { JUDGMENT_LABELS } from '../engine/types';
+import { JUDGMENT_LABELS, JUDGMENT_COLORS, ALL_JUDGMENTS } from '../engine/types';
 
 function getRank(state: GameState): { rank: string; stars: number } {
   const total = Object.values(state.judgments).reduce((a, b) => a + b, 0);
   if (total === 0) return { rank: 'D', stars: 0 };
-  const perfRate = (state.judgments.perfect + state.judgments.great) / total;
-  if (state.judgments.miss === 0 && state.judgments.bad === 0 && perfRate >= 0.98) return { rank: 'SS', stars: 5 };
-  if (state.judgments.miss === 0 && perfRate >= 0.95) return { rank: 'S', stars: 4 };
-  if (perfRate >= 0.9) return { rank: 'A', stars: 3 };
-  if (perfRate >= 0.8) return { rank: 'B', stars: 2 };
-  if (perfRate >= 0.6) return { rank: 'C', stars: 1 };
+  const topRate = (state.judgments.marvelous + state.judgments.perfect + state.judgments.great) / total;
+  const lateCount = state.judgments.late;
+  if (lateCount === 0 && topRate >= 0.98) return { rank: 'SS', stars: 5 };
+  if (lateCount === 0 && topRate >= 0.9) return { rank: 'S', stars: 4 };
+  if (topRate >= 0.85) return { rank: 'A', stars: 3 };
+  if (topRate >= 0.7) return { rank: 'B', stars: 2 };
+  if (topRate >= 0.5) return { rank: 'C', stars: 1 };
   return { rank: 'D', stars: 0 };
 }
 
@@ -24,10 +25,10 @@ export function renderResultsScreen(
   const total = Object.values(state.judgments).reduce((a, b) => a + b, 0);
   const starDisplay = '★'.repeat(stars) + '☆'.repeat(5 - stars);
 
-  const judgmentRows = (['perfect', 'great', 'good', 'bad', 'miss'] as Judgment[])
+  const judgmentRows = ALL_JUDGMENTS
     .map(j => `
       <div class="result-judgment">
-        <span class="rj-label ${j}">${JUDGMENT_LABELS[j]}</span>
+        <span class="rj-label" style="color:${JUDGMENT_COLORS[j]}">${JUDGMENT_LABELS[j]}</span>
         <span class="rj-count">${state.judgments[j]}</span>
       </div>
     `).join('');

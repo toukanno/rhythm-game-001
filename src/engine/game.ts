@@ -1,6 +1,6 @@
 import {
   type Beatmap, type ActiveNote, type HitEffect, type GameState, type Judgment,
-  TIMING, SCORE_MAP, SCROLL_SPEED,
+  TIMING, SCORE_MAP,
 } from './types';
 import { Renderer } from './renderer';
 import { AudioManager } from './audio';
@@ -15,6 +15,7 @@ export class Game {
   private state: GameState;
   private rafId = 0;
   private onFinish: ((state: GameState) => void) | null = null;
+  private onQuit: (() => void) | null = null;
   private songDuration = 0;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -23,7 +24,6 @@ export class Game {
     this.input = new InputManager();
     this.state = this.freshState();
 
-    // Resize handling
     const ro = new ResizeObserver(() => this.renderer.resize());
     ro.observe(canvas);
   }
@@ -33,7 +33,7 @@ export class Game {
       score: 0,
       combo: 0,
       maxCombo: 0,
-      judgments: { perfect: 0, great: 0, good: 0, bad: 0, miss: 0 },
+      judgments: { marvelous: 0, perfect: 0, great: 0, good: 0, bad: 0, safe: 0, late: 0 },
       activeNotes: [],
       hitEffects: [],
       startTime: 0,
@@ -44,9 +44,7 @@ export class Game {
     };
   }
 
-  getAudio(): AudioManager {
-    return this.audio;
-  }
+  getAudio(): AudioManager { return this.audio; }
 
   async loadBeatmap(beatmap: Beatmap, audioBuffer?: AudioBuffer): Promise<void> {
     this.beatmap = beatmap;
@@ -58,27 +56,21 @@ export class Game {
       await this.audio.loadFromUrl(beatmap.audioFile);
     }
 
-    // Prepare active notes sorted by time
     this.state.activeNotes = beatmap.notes
       .sort((a, b) => a.time - b.time)
-      .map(note => ({
-        note,
-        hit: false,
-        judged: false,
-      }));
+      .map(note => ({ note, hit: false, judged: false }));
 
-    // Estimate song duration from last note + 3s
     const lastNote = beatmap.notes[beatmap.notes.length - 1];
     this.songDuration = lastNote ? lastNote.time + (lastNote.duration || 0) + 3000 : 30000;
   }
 
-  start(onFinish: (state: GameState) => void): void {
+  start(onFinish: (state: GameState) => void, onQuit?: () => void): void {
     this.onFinish = onFinish;
+    this.onQuit = onQuit || null;
     this.state.playing = true;
     this.state.paused = false;
     this.state.finished = false;
 
-    // Bind input
     this.input.bind(
       this.renderer['canvas'],
       (x: number) => {
@@ -88,7 +80,6 @@ export class Game {
       (lane, pressed) => this.onInput(lane, pressed),
     );
 
-    // Start audio with a small delay so canvas shows first frame
     setTimeout(() => {
       this.audio.play(0);
       this.state.startTime = performance.now();
@@ -101,6 +92,11 @@ export class Game {
     this.input.unbind();
     cancelAnimationFrame(this.rafId);
     this.state.playing = false;
+  }
+
+  quit(): void {
+    this.stop();
+    this.onQuit?.();
   }
 
   togglePause(): void {
@@ -119,11 +115,9 @@ export class Game {
 
   private onInput(lane: number, pressed: boolean): void {
     if (!this.state.playing || this.state.paused) return;
-
     if (pressed) {
       this.tryHitNote(lane);
     } else {
-      // Release — check for hold note end
       this.tryReleaseHold(lane);
     }
   }
@@ -133,10 +127,13 @@ export class Game {
     let bestNote: ActiveNote | null = null;
     let bestDiff = Infinity;
 
+    // Find closest unjudged note in this lane within any reachable window
     for (const an of this.state.activeNotes) {
       if (an.judged || an.note.lane !== lane) continue;
       const diff = Math.abs(now - an.note.time);
-      if (diff < bestDiff && diff <= TIMING.bad) {
+      // Accept anything within 500ms (the "late" window is unlimited but
+      // we limit search to avoid matching very far-future notes)
+      if (diff < bestDiff && diff <= 500) {
         bestDiff = diff;
         bestNote = an;
       }
@@ -150,7 +147,7 @@ export class Game {
 
       if (bestNote.note.type === 'hold' && bestNote.note.duration) {
         bestNote.holdActive = true;
-        bestNote.judged = false; // will be fully judged on release
+        bestNote.judged = false;
         bestNote.holdEndJudged = false;
       }
 
@@ -166,7 +163,7 @@ export class Game {
 
       const endTime = an.note.time + (an.note.duration || 0);
       const diff = Math.abs(now - endTime);
-      const judgment = diff <= TIMING.bad ? this.getJudgment(diff) : 'miss' as Judgment;
+      const judgment = this.getJudgment(diff);
 
       an.holdActive = false;
       an.holdEndJudged = true;
@@ -177,33 +174,35 @@ export class Game {
   }
 
   private getJudgment(diff: number): Judgment {
+    if (diff <= TIMING.marvelous) return 'marvelous';
     if (diff <= TIMING.perfect) return 'perfect';
     if (diff <= TIMING.great) return 'great';
     if (diff <= TIMING.good) return 'good';
-    return 'bad';
+    if (diff <= TIMING.bad) return 'bad';
+    if (diff <= TIMING.safe) return 'safe';
+    return 'late';
   }
 
   private applyJudgment(judgment: Judgment, lane: number): void {
     this.state.judgments[judgment]++;
     this.state.score += SCORE_MAP[judgment];
 
-    if (judgment === 'miss' || judgment === 'bad') {
+    // Combo breaks only on 'late'
+    if (judgment === 'late') {
       this.state.combo = 0;
     } else {
       this.state.combo++;
       if (this.state.combo > this.state.maxCombo) {
         this.state.maxCombo = this.state.combo;
       }
-      // Combo bonus
       this.state.score += Math.floor(this.state.combo * 10);
     }
 
-    // Screen flash on perfect
-    if (judgment === 'perfect') {
+    // Screen flash on marvelous
+    if (judgment === 'marvelous') {
       this.renderer.triggerScreenFlash();
     }
 
-    // Create hit effect
     this.state.hitEffects.push({
       lane,
       judgment,
@@ -223,14 +222,14 @@ export class Game {
 
     // Check if song is done
     if (now > this.songDuration || (!this.audio.playing && now > 2000)) {
-      // Make sure all remaining notes get judged
       let allDone = true;
       for (const an of this.state.activeNotes) {
         if (!an.judged) {
-          if (now - an.note.time > TIMING.bad + 100) {
+          if (now - an.note.time > 500) {
+            // Auto-judge as 'late' (no MISS)
             an.judged = true;
-            an.judgment = 'miss';
-            this.state.judgments.miss++;
+            an.judgment = 'late';
+            this.state.judgments.late++;
             this.state.combo = 0;
           } else {
             allDone = false;
@@ -252,36 +251,34 @@ export class Game {
     for (const an of this.state.activeNotes) {
       if (an.judged && !an.holdActive) continue;
 
-      // Calculate Y position based on timing
       const timeDiff = an.note.time - now;
-      const pxPerMs = hitLineY / (1500); // note travels hitLineY pixels in 1500ms
+      const pxPerMs = hitLineY / 1500;
       an.y = hitLineY - timeDiff * pxPerMs;
 
-      // Check for miss (note passed hit line without being hit)
-      if (!an.judged && !an.hit && timeDiff < -(TIMING.bad)) {
+      // Auto-judge notes that passed far beyond the hit line as 'late' (no MISS)
+      if (!an.judged && !an.hit && timeDiff < -300) {
         an.judged = true;
-        an.judgment = 'miss';
-        this.state.judgments.miss++;
+        an.judgment = 'late';
+        this.state.judgments.late++;
         this.state.combo = 0;
 
-        // Create miss effect
         this.state.hitEffects.push({
           lane: an.note.lane,
-          judgment: 'miss',
+          judgment: 'late',
           time: performance.now(),
           y: hitLineY,
         });
       }
 
-      // Check hold notes that weren't released
+      // Hold notes that weren't released
       if (an.holdActive && an.note.duration) {
         const endTime = an.note.time + an.note.duration;
-        if (now > endTime + TIMING.bad) {
+        if (now > endTime + 300) {
           an.holdActive = false;
           an.holdEndJudged = true;
           an.judged = true;
-          an.judgment = 'miss';
-          this.state.judgments.miss++;
+          an.judgment = 'late';
+          this.state.judgments.late++;
           this.state.combo = 0;
         }
       }
@@ -293,7 +290,6 @@ export class Game {
     r.clear();
     r.drawLanes(this.input.pressedLanes, keyConfig.labels);
 
-    // Draw notes (only visible ones)
     for (const an of this.state.activeNotes) {
       if (an.y === undefined) continue;
       if (an.y < -50 || an.y > r.height + 50) continue;
@@ -301,7 +297,6 @@ export class Game {
       r.drawNote(an);
     }
 
-    // Draw hit effects
     const now = performance.now();
     this.state.hitEffects = this.state.hitEffects.filter(e => r.drawHitEffect(e, now));
 

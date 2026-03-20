@@ -9,7 +9,6 @@ import { loadCustomBeatmap } from './beatmaps/customLoader';
 import type { Beatmap, GameState } from './engine/types';
 import './style.css';
 
-/** Resolve a path relative to Vite's base URL. */
 function baseUrl(path: string): string {
   return import.meta.env.BASE_URL + path;
 }
@@ -26,7 +25,6 @@ class App {
   }
 
   private async init(): Promise<void> {
-    // Show title immediately, load songs in background
     this.showTitle();
     this.loadSongList();
   }
@@ -36,7 +34,6 @@ class App {
       const resp = await fetch(baseUrl('beatmaps/songlist.json'));
       const list: Array<{ easy?: string; normal?: string; hard?: string }> = await resp.json();
 
-      // Collect all paths to fetch
       const paths: string[] = [];
       for (const entry of list) {
         for (const [, path] of Object.entries(entry)) {
@@ -44,7 +41,6 @@ class App {
         }
       }
 
-      // Fetch all beatmaps in parallel (much faster than sequential)
       const results = await Promise.allSettled(
         paths.map(async (path) => {
           const bmResp = await fetch(baseUrl(path));
@@ -66,15 +62,13 @@ class App {
 
   private buildSongList(): SongEntry[] {
     const lc = keyConfig.laneCount;
-    const songs = this.loadedSongs.map(entry => {
-      // Clone to avoid mutating originals on lane clamp
+    return this.loadedSongs.map(entry => {
       const cloned = { ...entry, beatmap: { ...entry.beatmap, notes: entry.beatmap.notes.map(n => ({ ...n })) } };
       for (const note of cloned.beatmap.notes) {
         if (note.lane >= lc) note.lane = lc - 1;
       }
       return cloned;
     });
-    return songs;
   }
 
   private showTitle(): void {
@@ -96,6 +90,7 @@ class App {
       songs,
       (entry) => this.startGame(entry),
       () => this.handleCustomLoad(songs),
+      () => this.showTitle(),  // back button → title
     );
   }
 
@@ -109,15 +104,30 @@ class App {
     const pauseBtn = this.container.querySelector('#btn-pause');
     pauseBtn?.addEventListener('click', () => this.game?.togglePause());
 
+    // Quit button in gameplay (shown next to pause)
+    const quitBtn = this.container.querySelector('#btn-quit');
+    quitBtn?.addEventListener('click', () => {
+      this.game?.stop();
+      window.removeEventListener('keydown', escHandler);
+      this.showSongSelect();
+    });
+
     const escHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') this.game?.togglePause();
     };
     window.addEventListener('keydown', escHandler);
 
-    this.game.start((state: GameState) => {
-      window.removeEventListener('keydown', escHandler);
-      this.showResults(state);
-    });
+    this.game.start(
+      (state: GameState) => {
+        window.removeEventListener('keydown', escHandler);
+        this.showResults(state);
+      },
+      () => {
+        // quit callback
+        window.removeEventListener('keydown', escHandler);
+        this.showSongSelect();
+      },
+    );
   }
 
   private showResults(state: GameState): void {
@@ -150,6 +160,7 @@ class App {
       songs,
       (entry) => this.startGame(entry),
       () => this.handleCustomLoad(songs),
+      () => this.showTitle(),
     );
   }
 }

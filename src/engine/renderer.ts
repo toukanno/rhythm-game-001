@@ -22,6 +22,7 @@ export class Renderer {
   playAreaWidth = 0;
   hitLineY = 0;
   noteRadius = 12;
+  noteHeight = 24;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -47,6 +48,7 @@ export class Renderer {
     this.playAreaLeft = (this._width - this.playAreaWidth) / 2;
     this.hitLineY = this._height - 110;
     this.noteRadius = Math.max(10, this.laneWidth * 0.32);
+    this.noteHeight = Math.max(16, this.laneWidth * 0.35);
   }
 
   getLaneX(lane: number): number {
@@ -183,16 +185,15 @@ export class Renderer {
     if (y === undefined || an.judged) return;
 
     const cx = this.getLaneCenterX(note.lane);
-    const r = this.noteRadius;
+    const lx = this.getLaneX(note.lane);
+    const w = this.laneWidth - 6;
+    const h = this.noteHeight;
     const color = LANE_COLORS[note.lane];
 
     if (note.type === 'hold' && note.duration) {
       const bodyTop = Math.max(0, an.holdActive ? this.hitLineY : (y as number) - (note.duration / 1000) * 400);
-      // Hold body
       ctx.fillStyle = color + '28';
-      const hw = r * 1.4;
-      ctx.fillRect(cx - hw, bodyTop, hw * 2, (y as number) - bodyTop);
-      // Center line
+      ctx.fillRect(lx + 3, bodyTop, w, (y as number) - bodyTop);
       ctx.strokeStyle = color + '55';
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -202,55 +203,55 @@ export class Renderer {
     }
 
     if (note.type === 'tap' || note.type === 'hold') {
-      // ガルパ-style circular note
+      // Rounded rectangle note
+      const nx = lx + 3;
+      const ny = (y as number) - h / 2;
+      const r = h / 3;
       ctx.beginPath();
-      ctx.arc(cx, y as number, r, 0, Math.PI * 2);
-      const grad = ctx.createRadialGradient(cx - r * 0.3, (y as number) - r * 0.3, 0, cx, y as number, r);
-      grad.addColorStop(0, '#ffffff');
-      grad.addColorStop(0.3, color);
-      grad.addColorStop(1, color + 'aa');
+      ctx.roundRect(nx, ny, w, h, r);
+      const grad = ctx.createLinearGradient(nx, ny, nx, ny + h);
+      grad.addColorStop(0, color);
+      grad.addColorStop(1, color + '88');
       ctx.fillStyle = grad;
       ctx.shadowColor = color;
-      ctx.shadowBlur = 8;
+      ctx.shadowBlur = 6;
       ctx.fill();
       ctx.shadowBlur = 0;
-
-      // White border ring
-      ctx.beginPath();
-      ctx.arc(cx, y as number, r + 1.5, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255,255,255,0.7)';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#fff8';
+      ctx.lineWidth = 1;
       ctx.stroke();
+      // Inner shine
+      ctx.beginPath();
+      ctx.roundRect(nx + 2, ny + 2, w - 4, h / 2 - 2, r - 1);
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fill();
     }
 
     if (note.type === 'flick') {
-      // Diamond/arrow flick note
-      const s = r * 1.3;
+      // Diamond flick note
       ctx.beginPath();
-      ctx.moveTo(cx, (y as number) - s);
-      ctx.lineTo(cx + s, y as number);
-      ctx.lineTo(cx, (y as number) + s * 0.6);
-      ctx.lineTo(cx - s, y as number);
+      ctx.moveTo(cx, (y as number) - h * 0.7);
+      ctx.lineTo(cx + w / 2, y as number);
+      ctx.lineTo(cx, (y as number) + h * 0.7);
+      ctx.lineTo(cx - w / 2, y as number);
       ctx.closePath();
-
-      const grad = ctx.createLinearGradient(cx - s, (y as number) - s, cx + s, (y as number) + s);
+      const grad = ctx.createLinearGradient(cx - w / 2, (y as number) - h, cx + w / 2, (y as number) + h);
       grad.addColorStop(0, '#FF69B4');
       grad.addColorStop(1, '#8B5CF6');
       ctx.fillStyle = grad;
       ctx.shadowColor = '#FF69B4';
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = 8;
       ctx.fill();
       ctx.shadowBlur = 0;
-      ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#fff8';
+      ctx.lineWidth = 1;
       ctx.stroke();
-
-      // Up arrow
+      // Arrow
       ctx.beginPath();
-      ctx.moveTo(cx - 5, (y as number));
-      ctx.lineTo(cx, (y as number) - 7);
-      ctx.lineTo(cx + 5, (y as number));
-      ctx.strokeStyle = '#fff';
+      ctx.moveTo(cx - 6, (y as number) - 2);
+      ctx.lineTo(cx, (y as number) - 8);
+      ctx.lineTo(cx + 6, (y as number) - 2);
+      ctx.strokeStyle = '#fffa';
       ctx.lineWidth = 2;
       ctx.stroke();
     }
@@ -279,15 +280,15 @@ export class Renderer {
     ctx.stroke();
     ctx.shadowBlur = 0;
 
-    // Star burst particles for Perfect/Great
-    if (effect.judgment === 'perfect' || effect.judgment === 'great') {
-      const count = effect.judgment === 'perfect' ? 10 : 6;
+    // Star burst particles for Marvelous/Perfect/Great
+    if (effect.judgment === 'marvelous' || effect.judgment === 'perfect' || effect.judgment === 'great') {
+      const count = effect.judgment === 'marvelous' ? 16 : effect.judgment === 'perfect' ? 10 : 6;
       for (let p = 0; p < count; p++) {
         const angle = (p / count) * Math.PI * 2 + elapsed * 0.005;
         const dist = (10 + 40 * progress) * scale * 0.5;
         const px = cx + Math.cos(angle) * dist;
         const py = cy + Math.sin(angle) * dist;
-        const size = (2.5 - progress * 2) * (effect.judgment === 'perfect' ? 1.3 : 1);
+        const size = (2.5 - progress * 2) * (effect.judgment === 'marvelous' ? 1.6 : effect.judgment === 'perfect' ? 1.3 : 1);
         if (size > 0.3) {
           // Star shape (simplified as 4-point)
           ctx.save();
@@ -304,7 +305,7 @@ export class Renderer {
           }
           ctx.closePath();
           const pa = Math.round(alpha * 220).toString(16).padStart(2, '0');
-          ctx.fillStyle = (effect.judgment === 'perfect' ? '#ffd700' : '#FF69B4') + pa;
+          ctx.fillStyle = (effect.judgment === 'marvelous' ? '#ffd700' : effect.judgment === 'perfect' ? '#FF69B4' : '#BA68C8') + pa;
           ctx.fill();
           ctx.restore();
         }
@@ -313,7 +314,8 @@ export class Renderer {
 
     // Judgment text
     const bounce = progress < 0.1 ? 0.8 + progress * 2 : 1;
-    const fontSize = (15 + 5 * (1 - progress)) * bounce;
+    const baseSize = effect.judgment === 'marvelous' ? 20 : 15;
+    const fontSize = (baseSize + 5 * (1 - progress)) * bounce;
     ctx.font = `900 ${fontSize}px 'M PLUS Rounded 1c', sans-serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
