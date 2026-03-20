@@ -96,37 +96,43 @@ class App {
 
   private async startGame(entry: SongEntry): Promise<void> {
     this.currentSong = entry;
-    const canvas = renderGameplayScreen(this.container);
+    const gp = renderGameplayScreen(this.container);
 
-    this.game = new Game(canvas);
+    this.game = new Game(gp.canvas);
     await this.game.loadBeatmap(entry.beatmap, entry.audioBuffer);
 
-    const pauseBtn = this.container.querySelector('#btn-pause');
-    pauseBtn?.addEventListener('click', () => this.game?.togglePause());
+    const cleanup = () => { window.removeEventListener('keydown', escHandler); };
 
-    // Quit button in gameplay (shown next to pause)
-    const quitBtn = this.container.querySelector('#btn-quit');
-    quitBtn?.addEventListener('click', () => {
-      this.game?.stop();
-      window.removeEventListener('keydown', escHandler);
-      this.showSongSelect();
-    });
+    const doPause = () => {
+      if (!this.game || this.game.isPaused) return;
+      this.game.pause();
+      gp.showPause();
+    };
 
+    const doResume = () => {
+      gp.hidePause();
+      this.game?.resume();
+    };
+
+    // Pause button
+    this.container.querySelector('#btn-pause')?.addEventListener('click', doPause);
+
+    // Pause overlay buttons
+    gp.onResume(doResume);
+    gp.onQuitToSelect(() => { cleanup(); this.game?.stop(); this.showSongSelect(); });
+    gp.onQuitToTitle(() => { cleanup(); this.game?.stop(); this.showTitle(); });
+
+    // ESC to toggle pause
     const escHandler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') this.game?.togglePause();
+      if (e.key === 'Escape') {
+        if (this.game?.isPaused) doResume();
+        else doPause();
+      }
     };
     window.addEventListener('keydown', escHandler);
 
     this.game.start(
-      (state: GameState) => {
-        window.removeEventListener('keydown', escHandler);
-        this.showResults(state);
-      },
-      () => {
-        // quit callback
-        window.removeEventListener('keydown', escHandler);
-        this.showSongSelect();
-      },
+      (state: GameState) => { cleanup(); this.showResults(state); },
     );
   }
 

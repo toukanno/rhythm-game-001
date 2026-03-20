@@ -1,15 +1,23 @@
 {
   "name": "rhythm-game-001",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:cap": "tsc && vite build --mode capacitor",
+    "preview": "vite preview",
+    "cap:sync": "npm run build:cap && npx cap sync",
+    "cap:open:ios": "npx cap open ios"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.2.0",
     "typescript": "~5.9.3",
     "vite": "^8.0.1"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/ios": "^8.2.0"
   }
 }

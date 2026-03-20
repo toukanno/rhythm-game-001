@@ -99,18 +99,25 @@ export class Game {
     this.onQuit?.();
   }
 
+  get isPaused(): boolean { return this.state.paused; }
+
+  pause(): void {
+    if (this.state.finished || this.state.paused) return;
+    this.state.paused = true;
+    this.audio.pause();
+    cancelAnimationFrame(this.rafId);
+  }
+
+  resume(): void {
+    if (!this.state.paused) return;
+    this.state.paused = false;
+    this.audio.resume();
+    this.loop();
+  }
+
   togglePause(): void {
-    if (this.state.finished) return;
-    if (this.state.paused) {
-      this.state.paused = false;
-      this.audio.resume();
-      this.loop();
-    } else {
-      this.state.paused = true;
-      this.audio.pause();
-      cancelAnimationFrame(this.rafId);
-      this.renderer.drawPause();
-    }
+    if (this.state.paused) this.resume();
+    else this.pause();
   }
 
   private onInput(lane: number, pressed: boolean): void {

@@ -51,6 +51,27 @@ npm run build
 npm run preview
 ```
 
+### iOS アプリビルド (Capacitor)
+
+macOSとXcodeが必要です。
+
+```bash
+# Capacitor用にビルド（相対パス）
+npm run build:cap
+
+# iOS プロジェクトを同期
+npm run cap:sync
+
+# Xcode でプロジェクトを開く
+npm run cap:open:ios
+```
+
+Xcodeが開いたら、シミュレーターまたは実機を選択してビルド・実行します。
+
+App Store に公開する場合は、Xcode の Archive 機能を使用してください。
+
+**App ID:** `com.toukanno.rhythmstriker`
+
 ## 操作方法
 
 ### デスクトップ（キーボード）

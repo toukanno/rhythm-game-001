@@ -134,33 +134,6 @@ html, body {
   color: #FFB6C1;
 }
 
-.gameplay-controls {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  z-index: 10;
-  display: flex;
-  gap: 6px;
-}
-
-.btn-quit-game {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: rgba(255, 182, 193, 0.6);
-  font-size: 11px;
-  font-weight: 700;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  padding: 5px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-}
-
-.btn-quit-game:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #FFB6C1;
-}
-
 /* ===== Title Screen ===== */
 .title-screen {
   justify-content: center;
@@ -398,19 +371,68 @@ html, body {
   height: 100%;
 }
 
-.btn-pause {
+.btn-pause-icon {
   position: absolute;
   top: 10px;
   left: 10px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: rgba(255, 255, 255, 0.5);
-  font-size: 16px;
-  padding: 6px 10px;
-  border-radius: 8px;
+  font-size: 18px;
+  padding: 8px 12px;
+  border-radius: 10px;
   cursor: pointer;
   z-index: 10;
   backdrop-filter: blur(4px);
+  transition: all 0.2s;
+}
+
+.btn-pause-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFB6C1;
+}
+
+/* Pause overlay modal */
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 5, 32, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.pause-modal {
+  background: rgba(42, 20, 80, 0.9);
+  border: 1px solid rgba(255, 105, 180, 0.2);
+  border-radius: 24px;
+  padding: 36px 40px;
+  text-align: center;
+  min-width: 260px;
+  box-shadow: 0 8px 40px rgba(139, 92, 246, 0.2);
+}
+
+.pause-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #FFB6C1;
+  margin-bottom: 28px;
+  text-shadow: 0 0 20px rgba(255, 182, 193, 0.4);
+}
+
+.pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pause-btn {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 15px;
+  border-radius: 14px;
 }
 
 /* ===== Results ===== */
