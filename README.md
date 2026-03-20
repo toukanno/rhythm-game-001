@@ -53,24 +53,59 @@ npm run preview
 
 ### iOS アプリビルド (Capacitor)
 
-macOSとXcodeが必要です。
+iOSアプリとしてビルドし、App Storeに公開できます。
+
+#### 必要な環境
+
+- macOS 13 (Ventura) 以上
+- Xcode 15 以上 (App Store からインストール)
+- Node.js 18 以上
+- Apple Developer アカウント (App Store 公開時に必要)
+
+#### ビルド手順
 
 ```bash
-# Capacitor用にビルド（相対パス）
+# 1. リポジトリをクローン
+git clone https://github.com/toukanno/rhythm-game-001.git
+cd rhythm-game-001
+
+# 2. 依存パッケージをインストール
+npm install
+
+# 3. Capacitor 用にウェブアセットをビルド
 npm run build:cap
 
-# iOS プロジェクトを同期
+# 4. iOS プロジェクトにウェブアセットを同期
 npm run cap:sync
 
-# Xcode でプロジェクトを開く
+# 5. Xcode でプロジェクトを開く
 npm run cap:open:ios
 ```
 
-Xcodeが開いたら、シミュレーターまたは実機を選択してビルド・実行します。
+#### Xcode での操作
 
-App Store に公開する場合は、Xcode の Archive 機能を使用してください。
+1. Xcode が開いたら、左上の **App** ターゲットを選択
+2. **Signing & Capabilities** タブで Apple Developer アカウントを設定
+3. ターゲットデバイス (シミュレーターまたは実機) を選択
+4. **▶ Run** ボタンでビルド・実行
 
-**App ID:** `com.toukanno.rhythmstriker`
+#### App Store への提出
+
+1. Xcode メニューから **Product → Archive** を実行
+2. **Distribute App** を選択
+3. **App Store Connect** を選んでアップロード
+4. [App Store Connect](https://appstoreconnect.apple.com/) でアプリ情報を入力して審査に提出
+
+#### アプリ情報
+
+| 項目 | 値 |
+|------|-----|
+| アプリ名 | リズムストライカー |
+| Bundle ID | `com.toukanno.rhythmstriker` |
+| バージョン | 1.0.0 |
+| 最小 iOS | 15.0 |
+| 対応向き | 縦画面のみ (ポートレート) |
+| 音楽再生 | バックグラウンドオーディオ対応 |
 
 ## 操作方法
 
@@ -140,14 +175,14 @@ src/
 │   ├── game.ts          # ゲームエンジン本体
 │   ├── renderer.ts      # Canvas描画
 │   ├── audio.ts         # 音声管理 & デモ曲生成
-│   └── input.ts         # キーボード & タッチ入力
+│   ├── input.ts         # キーボード & タッチ入力
+│   └── keyConfig.ts     # キー設定 & localStorage 永続化
 ├── screens/
 │   ├── title.ts         # タイトル画面
 │   ├── songSelect.ts    # 選曲画面
 │   ├── gameplay.ts      # プレイ画面
 │   └── results.ts       # リザルト画面
 └── beatmaps/
-    ├── demo.ts          # デモ譜面データ
     └── customLoader.ts  # カスタム譜面読み込み
 ```
 
@@ -157,7 +192,7 @@ src/
 
 作曲: 阪神 総一 (Souichi Sakagami) / [Tandess](https://www.tandess.com/music/)
 
-収録曲にはオリジナルボーカル曲のほか、初音ミク・GUMI・神威がくぽ・さとうささら等のボーカロイド楽曲も含まれています。各曲のEASY・NORMALの2難易度を収録。
+収録曲にはオリジナルボーカル曲のほか、初音ミク・GUMI・神威がくぽ・さとうささら等のボーカロイド楽曲も含まれています。各曲にイージー・ノーマル・ハードの3難易度を収録 (計150譜面)。
 
 ## 拡張予定
 

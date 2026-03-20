@@ -2,23 +2,28 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.toukanno.rhythmstriker',
-  appName: 'Rhythm Striker',
+  appName: 'リズムストライカー',
   webDir: 'dist',
   server: {
-    // Use inline web assets for offline support
     androidScheme: 'https',
   },
   ios: {
-    // Prevent iOS from bouncing the webview on scroll
+    scheme: 'Rhythm Striker',
     scrollEnabled: false,
-    // Use full screen (no status bar overlap)
+    allowsLinkPreview: false,
     preferredContentMode: 'mobile',
+    backgroundColor: '#1a0a2e',
+    contentInset: 'always',
   },
   plugins: {
     SplashScreen: {
       launchAutoHide: true,
-      launchShowDuration: 1000,
+      launchShowDuration: 1500,
+      launchFadeOutDuration: 300,
       backgroundColor: '#1a0a2e',
+      showSpinner: false,
+      splashFullScreen: true,
+      splashImmersive: true,
     },
   },
 };
