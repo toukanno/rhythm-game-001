@@ -1,11 +1,13 @@
 const STORAGE_KEY = 'rhythmStriker_keyBindings';
 const LANE_COUNT_KEY = 'rhythmStriker_laneCount';
 const OFFSET_KEY = 'rhythmStriker_timingOffset';
+const DIFF_KEY = 'rhythmStriker_defaultDifficulty';
 
 const DEFAULT_KEYS_6 = ['a', 's', 'd', 'j', 'k', 'l'];
 const DEFAULT_KEYS_7 = ['a', 's', 'd', 'f', 'j', 'k', 'l'];
 
 export type LaneCountOption = 6 | 7;
+export type DifficultyOption = 'EASY' | 'NORMAL' | 'HARD';
 
 /**
  * Manages lane count and per-lane key bindings with localStorage persistence.
@@ -15,7 +17,8 @@ class KeyConfig {
   private _laneCount: LaneCountOption;
   private _keys6: string[];
   private _keys7: string[];
-  private _timingOffset: number = 0; // -100 to +100 ms
+  private _timingOffset: number = 0;
+  private _defaultDifficulty: DifficultyOption = 'NORMAL';
 
   constructor() {
     this._laneCount = 6;
@@ -26,6 +29,12 @@ class KeyConfig {
 
   get laneCount(): LaneCountOption { return this._laneCount; }
   get timingOffset(): number { return this._timingOffset; }
+  get defaultDifficulty(): DifficultyOption { return this._defaultDifficulty; }
+
+  setDefaultDifficulty(d: DifficultyOption): void {
+    this._defaultDifficulty = d;
+    this.save();
+  }
 
   setTimingOffset(ms: number): void {
     this._timingOffset = Math.max(-100, Math.min(100, Math.round(ms)));
@@ -118,6 +127,7 @@ class KeyConfig {
         keys7: this._keys7,
       }));
       localStorage.setItem(OFFSET_KEY, String(this._timingOffset));
+      localStorage.setItem(DIFF_KEY, this._defaultDifficulty);
     } catch { /* silently ignore */ }
   }
 
@@ -129,6 +139,9 @@ class KeyConfig {
 
       const off = localStorage.getItem(OFFSET_KEY);
       if (off) this._timingOffset = Math.max(-100, Math.min(100, parseInt(off) || 0));
+
+      const dd = localStorage.getItem(DIFF_KEY);
+      if (dd === 'EASY' || dd === 'NORMAL' || dd === 'HARD') this._defaultDifficulty = dd;
 
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;

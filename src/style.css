@@ -302,7 +302,19 @@ html, body {
 .song-artist {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 6px;
+  margin-bottom: 2px;
+}
+
+.song-bpm-info {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.song-chevron {
+  color: rgba(255, 182, 193, 0.5);
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-left: 8px;
 }
 
 .song-meta {
@@ -323,6 +335,112 @@ html, body {
 .diff-easy { background: #4FC3F7; color: #fff; }
 .diff-normal { background: #66BB6A; color: #fff; }
 .diff-hard { background: #EF5350; color: #fff; }
+
+/* ===== Difficulty Selection Modal ===== */
+.diff-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 5, 32, 0.88);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.diff-modal {
+  background: rgba(42, 20, 80, 0.92);
+  border: 1px solid rgba(255, 105, 180, 0.2);
+  border-radius: 24px;
+  padding: 28px 32px;
+  text-align: center;
+  min-width: 280px;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: 0 8px 40px rgba(139, 92, 246, 0.25);
+  position: relative;
+}
+
+.diff-back {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.diff-art {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  margin: 8px auto 14px;
+}
+
+.diff-song-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.diff-song-artist {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 4px;
+}
+
+.diff-bpm {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 20px;
+}
+
+.diff-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.diff-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #fff;
+}
+
+.diff-btn:active { transform: scale(0.97); }
+
+.diff-btn-easy {
+  background: rgba(79, 195, 247, 0.15);
+  border-color: rgba(79, 195, 247, 0.4);
+}
+.diff-btn-easy:hover { background: rgba(79, 195, 247, 0.25); }
+
+.diff-btn-normal {
+  background: rgba(102, 187, 106, 0.15);
+  border-color: rgba(102, 187, 106, 0.4);
+}
+.diff-btn-normal:hover { background: rgba(102, 187, 106, 0.25); }
+
+.diff-btn-hard {
+  background: rgba(239, 83, 80, 0.15);
+  border-color: rgba(239, 83, 80, 0.4);
+}
+.diff-btn-hard:hover { background: rgba(239, 83, 80, 0.25); }
+
+.diff-btn--default {
+  box-shadow: 0 0 12px rgba(255, 105, 180, 0.3);
+  border-color: rgba(255, 105, 180, 0.5);
+}
+
+.diff-btn-label { font-size: 16px; }
+.diff-btn-notes { font-size: 12px; color: rgba(255,255,255,0.5); }
 
 .song-bpm, .song-notes {
   color: rgba(255, 255, 255, 0.35);

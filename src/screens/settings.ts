@@ -1,4 +1,4 @@
-import { keyConfig, type LaneCountOption } from '../engine/keyConfig';
+import { keyConfig, type LaneCountOption, type DifficultyOption } from '../engine/keyConfig';
 import { LANE_COLORS } from '../engine/types';
 
 /**
@@ -15,6 +15,7 @@ function render(container: HTMLElement, onBack: () => void): void {
   const laneCount = keyConfig.laneCount;
   const labels = keyConfig.labelsFor(laneCount);
   const offset = keyConfig.timingOffset;
+  const defaultDiff = keyConfig.defaultDifficulty;
 
   const laneRows = Array.from({ length: laneCount }, (_, i) => {
     const color = LANE_COLORS[i] ?? LANE_COLORS[i % LANE_COLORS.length];
@@ -56,6 +57,15 @@ function render(container: HTMLElement, onBack: () => void): void {
           <span class="offset-value" id="offset-value">${offset >= 0 ? '+' : ''}${offset}ms</span>
         </div>
         <p class="settings-note">ノーツが早い場合は＋、遅い場合はーに調整</p>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-section-title">デフォルト難易度</h3>
+        <div class="lane-toggle">
+          <button class="lane-toggle-btn ${defaultDiff === 'EASY' ? 'lane-toggle-btn--active' : ''}" id="btn-diff-easy">イージー</button>
+          <button class="lane-toggle-btn ${defaultDiff === 'NORMAL' ? 'lane-toggle-btn--active' : ''}" id="btn-diff-normal">ノーマル</button>
+          <button class="lane-toggle-btn ${defaultDiff === 'HARD' ? 'lane-toggle-btn--active' : ''}" id="btn-diff-hard">ハード</button>
+        </div>
       </div>
 
       <div class="settings-actions">
@@ -136,10 +146,28 @@ function render(container: HTMLElement, onBack: () => void): void {
   };
   window.addEventListener('keydown', keyHandler);
 
+  // Default difficulty toggle
+  const diffBtns: Array<{ id: string; val: DifficultyOption }> = [
+    { id: '#btn-diff-easy', val: 'EASY' },
+    { id: '#btn-diff-normal', val: 'NORMAL' },
+    { id: '#btn-diff-hard', val: 'HARD' },
+  ];
+  for (const { id, val } of diffBtns) {
+    container.querySelector(id)?.addEventListener('click', () => {
+      keyConfig.setDefaultDifficulty(val);
+      // Update active state visually
+      for (const { id: bid, val: bval } of diffBtns) {
+        const b = container.querySelector(bid);
+        b?.classList.toggle('lane-toggle-btn--active', bval === val);
+      }
+    });
+  }
+
   // Reset
   container.querySelector('#btn-reset')?.addEventListener('click', () => {
     keyConfig.resetKeys(laneCount);
     keyConfig.setTimingOffset(0);
+    keyConfig.setDefaultDifficulty('NORMAL');
     render(container, onBack);
   });
 
