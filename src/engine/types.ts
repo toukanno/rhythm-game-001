@@ -80,18 +80,18 @@ export const SCORE_MAP: Record<Judgment, number> = {
   miss: 0,
 };
 
-// Colors per lane (neon arcade style)
+// ガルパ-style rainbow lane colors
 export const LANE_COLORS = [
-  '#ff2d78', '#ff6b35', '#ffd600', '#00e676',
-  '#00b0ff', '#d500f9', '#ff1744',
+  '#FF69B4', '#FF8A65', '#FFD54F', '#81C784',
+  '#64B5F6', '#BA68C8', '#EF5350',
 ];
 
 export const JUDGMENT_COLORS: Record<Judgment, string> = {
   perfect: '#ffd700',
-  great: '#ff6b35',
-  good: '#00e676',
-  bad: '#00b0ff',
-  miss: '#666666',
+  great: '#FF69B4',
+  good: '#81C784',
+  bad: '#64B5F6',
+  miss: '#777777',
 };
 
 // Japanese judgment labels

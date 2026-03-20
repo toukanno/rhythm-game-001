@@ -1,8 +1,17 @@
 import { keyConfig } from '../engine/keyConfig';
 
-/**
- * タイトル画面
- */
+function createStarParticles(count: number): string {
+  let stars = '';
+  for (let i = 0; i < count; i++) {
+    const left = Math.random() * 100;
+    const delay = Math.random() * 8;
+    const duration = 6 + Math.random() * 6;
+    const size = 2 + Math.random() * 4;
+    stars += `<div class="star" style="left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;width:${size}px;height:${size}px;"></div>`;
+  }
+  return stars;
+}
+
 export function renderTitleScreen(
   container: HTMLElement,
   onStart: () => void,
@@ -13,6 +22,7 @@ export function renderTitleScreen(
   container.innerHTML = `
     <div class="screen title-screen">
       <div class="title-bg"></div>
+      <div class="star-bg">${createStarParticles(30)}</div>
       <div class="title-content">
         <h1 class="title-logo">
           <span class="title-star">★</span>

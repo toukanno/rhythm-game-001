@@ -1,9 +1,18 @@
 import type { Beatmap } from '../engine/types';
-import { DIFFICULTY_LABELS } from '../engine/types';
+import { DIFFICULTY_LABELS, LANE_COLORS } from '../engine/types';
 
 export interface SongEntry {
   beatmap: Beatmap;
   audioBuffer?: AudioBuffer;
+}
+
+// Generate a gradient color for album art placeholder based on song title
+function artGradient(title: string): string {
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) hash = title.charCodeAt(i) + ((hash << 5) - hash);
+  const h1 = Math.abs(hash % 360);
+  const h2 = (h1 + 40) % 360;
+  return `linear-gradient(135deg, hsl(${h1},70%,55%), hsl(${h2},80%,45%))`;
 }
 
 export function renderSongSelectScreen(
@@ -28,9 +37,11 @@ export function renderSongSelectScreen(
   songs.forEach((entry, idx) => {
     const diffLabel = DIFFICULTY_LABELS[entry.beatmap.difficulty] || entry.beatmap.difficulty;
     const diffClass = entry.beatmap.difficulty.toLowerCase();
+    const art = artGradient(entry.beatmap.title);
     const card = document.createElement('div');
     card.className = 'song-card';
     card.innerHTML = `
+      <div class="song-art" style="background:${art}"></div>
       <div class="song-info">
         <h3 class="song-title">${entry.beatmap.title}</h3>
         <p class="song-artist">${entry.beatmap.artist}</p>
