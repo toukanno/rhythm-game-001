@@ -26,8 +26,9 @@ class App {
   }
 
   private async init(): Promise<void> {
-    await this.loadSongList();
+    // Show title immediately, load songs in background
     this.showTitle();
+    this.loadSongList();
   }
 
   private async loadSongList(): Promise<void> {
@@ -35,17 +36,27 @@ class App {
       const resp = await fetch(baseUrl('beatmaps/songlist.json'));
       const list: Array<{ easy?: string; normal?: string; hard?: string }> = await resp.json();
 
+      // Collect all paths to fetch
+      const paths: string[] = [];
       for (const entry of list) {
         for (const [, path] of Object.entries(entry)) {
-          if (!path) continue;
-          try {
-            const bmResp = await fetch(baseUrl(path));
-            const bm: Beatmap = await bmResp.json();
-            bm.audioFile = baseUrl(bm.audioFile);
-            this.loadedSongs.push({ beatmap: bm });
-          } catch (e) {
-            console.warn(`譜面の読み込みに失敗: ${path}`, e);
-          }
+          if (path) paths.push(path);
+        }
+      }
+
+      // Fetch all beatmaps in parallel (much faster than sequential)
+      const results = await Promise.allSettled(
+        paths.map(async (path) => {
+          const bmResp = await fetch(baseUrl(path));
+          const bm: Beatmap = await bmResp.json();
+          bm.audioFile = baseUrl(bm.audioFile);
+          return bm;
+        })
+      );
+
+      for (const result of results) {
+        if (result.status === 'fulfilled') {
+          this.loadedSongs.push({ beatmap: result.value });
         }
       }
     } catch (e) {
