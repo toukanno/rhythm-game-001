@@ -1,7 +1,7 @@
 import { keyConfig } from '../engine/keyConfig';
 
 /**
- * Title screen with animated background.
+ * タイトル画面
  */
 export function renderTitleScreen(
   container: HTMLElement,
@@ -19,21 +19,18 @@ export function renderTitleScreen(
           <span class="title-text">Rhythm<br>Striker</span>
           <span class="title-star">★</span>
         </h1>
-        <p class="title-sub">${keyConfig.laneCount}-Lane Rhythm Game</p>
-        <button class="btn btn-primary pulse" id="btn-start">TAP TO START</button>
-        <p class="title-hint">Desktop: ${keyHint}</p>
-        <button class="btn btn-secondary btn-settings" id="btn-settings">SETTINGS</button>
-        <p class="title-credit">Music: <a href="https://www.tandess.com/music/" target="_blank">Tandess / Trial &amp; Error</a></p>
+        <p class="title-sub">${keyConfig.laneCount}レーン リズムゲーム</p>
+        <button class="btn btn-primary pulse" id="btn-start">スタート</button>
+        <p class="title-hint">キーボード: ${keyHint}</p>
+        <button class="btn btn-secondary btn-settings" id="btn-settings">設定</button>
+        <p class="title-credit">楽曲提供: <a href="https://www.tandess.com/music/" target="_blank">Tandess / Trial &amp; Error</a></p>
       </div>
     </div>
   `;
 
-  const btn = container.querySelector('#btn-start') as HTMLButtonElement;
-  btn.addEventListener('click', onStart);
+  container.querySelector('#btn-start')!.addEventListener('click', onStart);
+  container.querySelector('#btn-settings')!.addEventListener('click', onSettings);
 
-  container.querySelector('#btn-settings')?.addEventListener('click', onSettings);
-
-  // Also allow Enter to start
   const handler = (e: KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       window.removeEventListener('keydown', handler);

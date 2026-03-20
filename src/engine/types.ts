@@ -80,22 +80,32 @@ export const SCORE_MAP: Record<Judgment, number> = {
   miss: 0,
 };
 
-// Key bindings (desktop)
-export const KEY_BINDINGS: Record<string, number> = {
-  'a': 0, 's': 1, 'd': 2, 'f': 3, 'j': 4, 'k': 5, 'l': 6,
-  'A': 0, 'S': 1, 'D': 2, 'F': 3, 'J': 4, 'K': 5, 'L': 6,
-};
-
-// Colors per lane
+// Colors per lane (neon arcade style)
 export const LANE_COLORS = [
-  '#ff6b9d', '#ff9a76', '#ffd93d', '#6bcb77',
-  '#4d96ff', '#9b59b6', '#e74c3c',
+  '#ff2d78', '#ff6b35', '#ffd600', '#00e676',
+  '#00b0ff', '#d500f9', '#ff1744',
 ];
 
 export const JUDGMENT_COLORS: Record<Judgment, string> = {
-  perfect: '#ffeb3b',
-  great: '#ff9800',
-  good: '#4caf50',
-  bad: '#2196f3',
-  miss: '#9e9e9e',
+  perfect: '#ffd700',
+  great: '#ff6b35',
+  good: '#00e676',
+  bad: '#00b0ff',
+  miss: '#666666',
+};
+
+// Japanese judgment labels
+export const JUDGMENT_LABELS: Record<Judgment, string> = {
+  perfect: 'PERFECT',
+  great: 'GREAT',
+  good: 'GOOD',
+  bad: 'BAD',
+  miss: 'MISS',
+};
+
+// Japanese difficulty labels
+export const DIFFICULTY_LABELS: Record<string, string> = {
+  'EASY': 'イージー',
+  'NORMAL': 'ノーマル',
+  'HARD': 'ハード',
 };

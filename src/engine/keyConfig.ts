@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'rhythmStriker_keyBindings';
 const LANE_COUNT_KEY = 'rhythmStriker_laneCount';
+const OFFSET_KEY = 'rhythmStriker_timingOffset';
 
 const DEFAULT_KEYS_6 = ['s', 'd', 'f', 'j', 'k', 'l'];
 const DEFAULT_KEYS_7 = ['a', 's', 'd', 'f', 'j', 'k', 'l'];
@@ -14,6 +15,7 @@ class KeyConfig {
   private _laneCount: LaneCountOption;
   private _keys6: string[];
   private _keys7: string[];
+  private _timingOffset: number = 0; // -100 to +100 ms
 
   constructor() {
     this._laneCount = 6;
@@ -23,6 +25,12 @@ class KeyConfig {
   }
 
   get laneCount(): LaneCountOption { return this._laneCount; }
+  get timingOffset(): number { return this._timingOffset; }
+
+  setTimingOffset(ms: number): void {
+    this._timingOffset = Math.max(-100, Math.min(100, Math.round(ms)));
+    this.save();
+  }
 
   /** Current keys array for the active lane count. */
   private get activeKeys(): string[] {
@@ -109,6 +117,7 @@ class KeyConfig {
         keys6: this._keys6,
         keys7: this._keys7,
       }));
+      localStorage.setItem(OFFSET_KEY, String(this._timingOffset));
     } catch { /* silently ignore */ }
   }
 
@@ -117,6 +126,9 @@ class KeyConfig {
       const lc = localStorage.getItem(LANE_COUNT_KEY);
       if (lc === '7') this._laneCount = 7;
       else this._laneCount = 6;
+
+      const off = localStorage.getItem(OFFSET_KEY);
+      if (off) this._timingOffset = Math.max(-100, Math.min(100, parseInt(off) || 0));
 
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;

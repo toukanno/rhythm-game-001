@@ -1,4 +1,5 @@
 import type { GameState, Judgment } from '../engine/types';
+import { JUDGMENT_LABELS } from '../engine/types';
 
 function getRank(state: GameState): string {
   const total = Object.values(state.judgments).reduce((a, b) => a + b, 0);
@@ -24,29 +25,29 @@ export function renderResultsScreen(
   const judgmentRows = (['perfect', 'great', 'good', 'bad', 'miss'] as Judgment[])
     .map(j => `
       <div class="result-judgment">
-        <span class="rj-label ${j}">${j.toUpperCase()}</span>
+        <span class="rj-label ${j}">${JUDGMENT_LABELS[j]}</span>
         <span class="rj-count">${state.judgments[j]}</span>
       </div>
     `).join('');
 
   container.innerHTML = `
     <div class="screen results-screen">
-      <h2 class="screen-title">RESULTS</h2>
+      <h2 class="screen-title">リザルト</h2>
       <p class="result-song">${songTitle}</p>
 
       <div class="result-rank rank-${rank.toLowerCase()}">${rank}</div>
 
       <div class="result-score">${state.score.toLocaleString()}</div>
-      <p class="result-label">SCORE</p>
+      <p class="result-label">スコア</p>
 
       <div class="result-stats">
         <div class="result-stat">
           <span class="stat-val">${state.maxCombo}</span>
-          <span class="stat-label">MAX COMBO</span>
+          <span class="stat-label">最大コンボ</span>
         </div>
         <div class="result-stat">
           <span class="stat-val">${total}</span>
-          <span class="stat-label">TOTAL NOTES</span>
+          <span class="stat-label">総ノーツ</span>
         </div>
       </div>
 
@@ -55,8 +56,8 @@ export function renderResultsScreen(
       </div>
 
       <div class="result-actions">
-        <button class="btn btn-primary" id="btn-retry">RETRY</button>
-        <button class="btn btn-secondary" id="btn-back">BACK</button>
+        <button class="btn btn-primary" id="btn-retry">もう一度</button>
+        <button class="btn btn-secondary" id="btn-back">曲選択へ</button>
       </div>
     </div>
   `;

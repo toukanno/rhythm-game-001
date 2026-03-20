@@ -1,12 +1,10 @@
 import { Game } from './engine/game';
-import { AudioManager } from './engine/audio';
 import { keyConfig } from './engine/keyConfig';
 import { renderTitleScreen } from './screens/title';
 import { renderSongSelectScreen, type SongEntry } from './screens/songSelect';
 import { renderGameplayScreen } from './screens/gameplay';
 import { renderResultsScreen } from './screens/results';
 import { renderSettingsScreen } from './screens/settings';
-import { createDemoBeatmap, createEasyDemoBeatmap } from './beatmaps/demo';
 import { loadCustomBeatmap } from './beatmaps/customLoader';
 import type { Beatmap, GameState } from './engine/types';
 import './style.css';
@@ -19,7 +17,6 @@ function baseUrl(path: string): string {
 class App {
   private container: HTMLElement;
   private game: Game | null = null;
-  private demoAudioBuffer: AudioBuffer | null = null;
   private currentSong: SongEntry | null = null;
   private loadedSongs: SongEntry[] = [];
 
@@ -29,57 +26,43 @@ class App {
   }
 
   private async init(): Promise<void> {
-    // Generate demo audio
-    const tempAudio = new AudioManager();
-    this.demoAudioBuffer = tempAudio.generateDemoSong();
-
-    // Load real songs from songlist
     await this.loadSongList();
-
     this.showTitle();
   }
 
   private async loadSongList(): Promise<void> {
     try {
       const resp = await fetch(baseUrl('beatmaps/songlist.json'));
-      const list: Array<{ easy: string; normal: string }> = await resp.json();
+      const list: Array<{ easy?: string; normal?: string; hard?: string }> = await resp.json();
 
       for (const entry of list) {
-        for (const [diff, path] of Object.entries(entry)) {
+        for (const [, path] of Object.entries(entry)) {
+          if (!path) continue;
           try {
             const bmResp = await fetch(baseUrl(path));
             const bm: Beatmap = await bmResp.json();
-            // Resolve audioFile relative to base
             bm.audioFile = baseUrl(bm.audioFile);
             this.loadedSongs.push({ beatmap: bm });
           } catch (e) {
-            console.warn(`Failed to load beatmap: ${path}`, e);
+            console.warn(`譜面の読み込みに失敗: ${path}`, e);
           }
         }
       }
     } catch (e) {
-      console.warn('Failed to load songlist.json, using demo songs only', e);
+      console.warn('songlist.jsonの読み込みに失敗しました', e);
     }
   }
 
-  /** Build song list: real songs + procedural demo fallback */
   private buildSongList(): SongEntry[] {
     const lc = keyConfig.laneCount;
-    const songs: SongEntry[] = [...this.loadedSongs];
-
-    // Clamp loaded songs' lanes to current lane count
-    for (const entry of songs) {
-      for (const note of entry.beatmap.notes) {
+    const songs = this.loadedSongs.map(entry => {
+      // Clone to avoid mutating originals on lane clamp
+      const cloned = { ...entry, beatmap: { ...entry.beatmap, notes: entry.beatmap.notes.map(n => ({ ...n })) } };
+      for (const note of cloned.beatmap.notes) {
         if (note.lane >= lc) note.lane = lc - 1;
       }
-    }
-
-    // Add procedural demo as fallback
-    songs.push(
-      { beatmap: createDemoBeatmap(lc), audioBuffer: this.demoAudioBuffer! },
-      { beatmap: createEasyDemoBeatmap(lc), audioBuffer: this.demoAudioBuffer! },
-    );
-
+      return cloned;
+    });
     return songs;
   }
 

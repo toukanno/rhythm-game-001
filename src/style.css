@@ -10,7 +10,7 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0a0a1a;
+  background: #050510;
   color: #fff;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -78,9 +78,9 @@ html, body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(255, 107, 157, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 50%, rgba(75, 0, 130, 0.2) 0%, transparent 50%),
-    linear-gradient(180deg, #0a0a1a, #1a1a3e);
+    radial-gradient(ellipse at 20% 50%, rgba(255, 45, 120, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(213, 0, 249, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #050510, #0a0a20);
   animation: bgPulse 4s ease-in-out infinite alternate;
 }
 
@@ -195,12 +195,16 @@ html, body {
 }
 
 .song-diff {
-  background: linear-gradient(135deg, #ff6b9d, #c44dff);
   padding: 2px 10px;
   border-radius: 10px;
   font-size: 11px;
   font-weight: bold;
+  background: linear-gradient(135deg, #ff2d78, #d500f9);
 }
+
+.diff-easy { background: linear-gradient(135deg, #00e676, #00b0ff); }
+.diff-normal { background: linear-gradient(135deg, #ff6b35, #ffd600); }
+.diff-hard { background: linear-gradient(135deg, #ff1744, #d500f9); }
 
 .song-bpm, .song-notes {
   color: rgba(255, 255, 255, 0.4);
@@ -563,6 +567,26 @@ html, body {
 
 .settings-inst--listening {
   color: #ff6b9d;
+}
+
+.offset-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.offset-control input[type="range"] {
+  width: 200px;
+  accent-color: #ff2d78;
+}
+
+.offset-value {
+  font-family: monospace;
+  font-size: 14px;
+  min-width: 60px;
+  text-align: center;
+  color: #ff2d78;
 }
 
 .settings-actions {

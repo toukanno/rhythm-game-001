@@ -2,7 +2,7 @@ import { keyConfig, type LaneCountOption } from '../engine/keyConfig';
 import { LANE_COLORS } from '../engine/types';
 
 /**
- * Settings screen — lane count toggle and key binding customisation.
+ * 設定画面 — レーン数、キーバインド、タイミングオフセット
  */
 export function renderSettingsScreen(
   container: HTMLElement,
@@ -14,12 +14,13 @@ export function renderSettingsScreen(
 function render(container: HTMLElement, onBack: () => void): void {
   const laneCount = keyConfig.laneCount;
   const labels = keyConfig.labelsFor(laneCount);
+  const offset = keyConfig.timingOffset;
 
   const laneRows = Array.from({ length: laneCount }, (_, i) => {
     const color = LANE_COLORS[i] ?? LANE_COLORS[i % LANE_COLORS.length];
     return `
       <div class="key-row" data-lane="${i}">
-        <span class="key-lane-num" style="color:${color}">Lane ${i + 1}</span>
+        <span class="key-lane-num" style="color:${color}">レーン ${i + 1}</span>
         <button class="key-btn" data-lane="${i}" style="border-color:${color}" id="key-btn-${i}">
           ${labels[i]}
         </button>
@@ -28,39 +29,47 @@ function render(container: HTMLElement, onBack: () => void): void {
 
   container.innerHTML = `
     <div class="screen settings-screen">
-      <h2 class="screen-title">SETTINGS</h2>
+      <h2 class="screen-title">設定</h2>
 
       <div class="settings-section">
-        <h3 class="settings-section-title">レーン数 / Lane Count</h3>
+        <h3 class="settings-section-title">レーン数</h3>
         <div class="lane-toggle">
-          <button class="lane-toggle-btn ${laneCount === 6 ? 'lane-toggle-btn--active' : ''}" id="btn-6lane">6 Lanes</button>
-          <button class="lane-toggle-btn ${laneCount === 7 ? 'lane-toggle-btn--active' : ''}" id="btn-7lane">7 Lanes</button>
+          <button class="lane-toggle-btn ${laneCount === 6 ? 'lane-toggle-btn--active' : ''}" id="btn-6lane">6レーン</button>
+          <button class="lane-toggle-btn ${laneCount === 7 ? 'lane-toggle-btn--active' : ''}" id="btn-7lane">7レーン</button>
         </div>
-        <p class="settings-note">6-lane default: S D F J K L &nbsp;|&nbsp; 7-lane default: A S D F J K L</p>
       </div>
 
       <div class="settings-section">
-        <h3 class="settings-section-title">キーバインド / Key Bindings</h3>
+        <h3 class="settings-section-title">キーバインド</h3>
         <div class="key-grid">
           ${laneRows}
         </div>
         <p class="settings-inst" id="settings-inst">
-          Click a key button, then press the new key.
+          ボタンをクリックして、新しいキーを押してください
         </p>
       </div>
 
+      <div class="settings-section">
+        <h3 class="settings-section-title">タイミング調整</h3>
+        <div class="offset-control">
+          <input type="range" id="offset-slider" min="-100" max="100" value="${offset}" step="5" />
+          <span class="offset-value" id="offset-value">${offset >= 0 ? '+' : ''}${offset}ms</span>
+        </div>
+        <p class="settings-note">ノーツが早い場合は＋、遅い場合はーに調整</p>
+      </div>
+
       <div class="settings-actions">
-        <button class="btn btn-secondary" id="btn-reset">デフォルトに戻す (Reset)</button>
-        <button class="btn btn-primary" id="btn-back">戻る (Back)</button>
+        <button class="btn btn-secondary" id="btn-reset">リセット</button>
+        <button class="btn btn-primary" id="btn-back">戻る</button>
       </div>
     </div>
   `;
 
-  // --- Lane count toggle ---
+  // Lane count toggle
   container.querySelector('#btn-6lane')?.addEventListener('click', () => {
     if (keyConfig.laneCount !== 6) {
       keyConfig.setLaneCount(6);
-      render(container, onBack); // re-render with new lane count
+      render(container, onBack);
     }
   });
   container.querySelector('#btn-7lane')?.addEventListener('click', () => {
@@ -70,7 +79,16 @@ function render(container: HTMLElement, onBack: () => void): void {
     }
   });
 
-  // --- Key binding ---
+  // Timing offset slider
+  const slider = container.querySelector('#offset-slider') as HTMLInputElement;
+  const offsetLabel = container.querySelector('#offset-value') as HTMLElement;
+  slider?.addEventListener('input', () => {
+    const v = parseInt(slider.value);
+    keyConfig.setTimingOffset(v);
+    offsetLabel.textContent = `${v >= 0 ? '+' : ''}${v}ms`;
+  });
+
+  // Key binding
   let listeningLane: number | null = null;
 
   for (let i = 0; i < laneCount; i++) {
@@ -80,7 +98,7 @@ function render(container: HTMLElement, onBack: () => void): void {
       btn.classList.add('key-btn--active');
       listeningLane = i;
       const inst = container.querySelector('#settings-inst') as HTMLElement;
-      inst.textContent = `Press a key for Lane ${i + 1}…`;
+      inst.textContent = `レーン ${i + 1} のキーを押してください…`;
       inst.classList.add('settings-inst--listening');
     });
   }
@@ -93,7 +111,7 @@ function render(container: HTMLElement, onBack: () => void): void {
       listeningLane = null;
       container.querySelectorAll('.key-btn').forEach(b => b.classList.remove('key-btn--active'));
       const inst = container.querySelector('#settings-inst') as HTMLElement;
-      inst.textContent = 'Click a key button, then press the new key.';
+      inst.textContent = 'ボタンをクリックして、新しいキーを押してください';
       inst.classList.remove('settings-inst--listening');
       return;
     }
@@ -103,7 +121,7 @@ function render(container: HTMLElement, onBack: () => void): void {
 
     if (!success) {
       const inst = container.querySelector('#settings-inst') as HTMLElement;
-      inst.textContent = `"${newKey.toUpperCase()}" is already assigned to another lane.`;
+      inst.textContent = `「${newKey.toUpperCase()}」は他のレーンで使用中です`;
       return;
     }
 
@@ -113,7 +131,7 @@ function render(container: HTMLElement, onBack: () => void): void {
 
     listeningLane = null;
     const inst = container.querySelector('#settings-inst') as HTMLElement;
-    inst.textContent = 'Key updated!';
+    inst.textContent = 'キーを変更しました';
     inst.classList.remove('settings-inst--listening');
   };
   window.addEventListener('keydown', keyHandler);
@@ -121,16 +139,8 @@ function render(container: HTMLElement, onBack: () => void): void {
   // Reset
   container.querySelector('#btn-reset')?.addEventListener('click', () => {
     keyConfig.resetKeys(laneCount);
-    const newLabels = keyConfig.labelsFor(laneCount);
-    for (let i = 0; i < laneCount; i++) {
-      const btn = container.querySelector(`#key-btn-${i}`) as HTMLButtonElement;
-      if (btn) btn.textContent = newLabels[i];
-    }
-    listeningLane = null;
-    container.querySelectorAll('.key-btn').forEach(b => b.classList.remove('key-btn--active'));
-    const inst = container.querySelector('#settings-inst') as HTMLElement;
-    inst.textContent = `Reset to defaults.`;
-    inst.classList.remove('settings-inst--listening');
+    keyConfig.setTimingOffset(0);
+    render(container, onBack);
   });
 
   // Back

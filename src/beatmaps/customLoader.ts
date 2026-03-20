@@ -12,7 +12,7 @@ export async function loadCustomBeatmap(): Promise<{ beatmap: Beatmap; audioFile
     modal.innerHTML = `
       <div class="modal">
         <h3>カスタム譜面の読み込み</h3>
-        <p>Load Custom Beatmap</p>
+        <p>JSONファイルと音楽ファイルを選んでください</p>
         <div class="file-inputs">
           <div class="file-group">
             <label>譜面ファイル (Beatmap JSON)</label>

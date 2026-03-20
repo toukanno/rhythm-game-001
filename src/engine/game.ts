@@ -129,7 +129,7 @@ export class Game {
   }
 
   private tryHitNote(lane: number): void {
-    const now = this.audio.currentTime;
+    const now = this.audio.currentTime + keyConfig.timingOffset;
     let bestNote: ActiveNote | null = null;
     let bestDiff = Infinity;
 
@@ -159,7 +159,7 @@ export class Game {
   }
 
   private tryReleaseHold(lane: number): void {
-    const now = this.audio.currentTime;
+    const now = this.audio.currentTime + keyConfig.timingOffset;
 
     for (const an of this.state.activeNotes) {
       if (an.note.lane !== lane || !an.holdActive || an.holdEndJudged) continue;
@@ -196,6 +196,11 @@ export class Game {
       }
       // Combo bonus
       this.state.score += Math.floor(this.state.combo * 10);
+    }
+
+    // Screen flash on perfect
+    if (judgment === 'perfect') {
+      this.renderer.triggerScreenFlash();
     }
 
     // Create hit effect
