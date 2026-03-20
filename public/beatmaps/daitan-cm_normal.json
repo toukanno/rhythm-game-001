@@ -2,7 +2,7 @@
   "title": "DAI☆TAN センセーション",
   "artist": "Tandess (ななひら/Mii/藍月なくる)",
   "difficulty": "NORMAL",
-  "bpm": 172,
+  "bpm": 86,
   "audioFile": "songs/daitan-cm.mp3",
   "offset": 0,
   "notes": [
@@ -12,9 +12,14 @@
       "type": "tap"
     },
     {
-      "lane": 2,
-      "time": 2345,
+      "lane": 3,
+      "time": 2368,
       "type": "tap"
+    },
+    {
+      "lane": 3,
+      "time": 3065,
+      "type": "flick"
     },
     {
       "lane": 4,
@@ -22,42 +27,37 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 3575,
       "type": "tap"
     },
     {
-      "lane": 5,
+      "lane": 3,
       "time": 3738,
       "type": "tap"
     },
     {
-      "lane": 0,
+      "lane": 3,
       "time": 4109,
       "type": "tap"
     },
     {
-      "lane": 5,
+      "lane": 3,
       "time": 4342,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 4969,
       "type": "tap"
     },
     {
-      "lane": 5,
-      "time": 4969,
-      "type": "tap"
-    },
-    {
-      "lane": 2,
+      "lane": 3,
       "time": 5642,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 6269,
       "type": "tap"
     },
@@ -67,7 +67,7 @@
       "type": "tap"
     },
     {
-      "lane": 2,
+      "lane": 3,
       "time": 7569,
       "type": "tap"
     },
@@ -77,53 +77,52 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 8939,
       "type": "tap"
     },
     {
       "lane": 3,
       "time": 8939,
-      "type": "hold",
-      "duration": 697
+      "type": "tap"
     },
     {
-      "lane": 5,
+      "lane": 3,
       "time": 9613,
       "type": "tap"
     },
     {
-      "lane": 2,
-      "time": 10309,
-      "type": "tap"
-    },
-    {
       "lane": 4,
       "time": 10309,
       "type": "tap"
     },
     {
-      "lane": 5,
+      "lane": 3,
+      "time": 10472,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
       "time": 11006,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
+      "time": 11168,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
       "time": 11354,
       "type": "tap"
     },
     {
-      "lane": 2,
+      "lane": 5,
       "time": 11702,
       "type": "tap"
     },
     {
       "lane": 3,
-      "time": 11702,
-      "type": "flick"
-    },
-    {
-      "lane": 4,
       "time": 12399,
       "type": "tap"
     },
@@ -133,55 +132,49 @@
       "type": "tap"
     },
     {
-      "lane": 2,
-      "time": 13235,
-      "type": "tap"
-    },
-    {
-      "lane": 4,
+      "lane": 3,
       "time": 13769,
       "type": "tap"
     },
     {
       "lane": 3,
-      "time": 14442,
-      "type": "tap"
+      "time": 14466,
+      "type": "flick"
     },
     {
       "lane": 4,
-      "time": 14442,
-      "type": "tap"
-    },
-    {
-      "lane": 5,
-      "time": 15139,
-      "type": "tap"
-    },
-    {
-      "lane": 0,
-      "time": 15836,
-      "type": "tap"
-    },
-    {
-      "lane": 5,
-      "time": 16161,
+      "time": 14466,
       "type": "tap"
     },
     {
       "lane": 3,
+      "time": 14791,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
+      "time": 15139,
+      "type": "tap"
+    },
+    {
+      "lane": 3,
+      "time": 15487,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
+      "time": 15836,
+      "type": "tap"
+    },
+    {
+      "lane": 3,
+      "time": 15998,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
       "time": 16532,
       "type": "tap"
-    },
-    {
-      "lane": 2,
-      "time": 16695,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
-      "time": 17205,
-      "type": "hold",
-      "duration": 697
     },
     {
       "lane": 4,
@@ -191,16 +184,11 @@
     {
       "lane": 3,
       "time": 17902,
-      "type": "tap"
+      "type": "flick"
     },
     {
-      "lane": 0,
-      "time": 18158,
-      "type": "tap"
-    },
-    {
-      "lane": 5,
-      "time": 18158,
+      "lane": 4,
+      "time": 17902,
       "type": "tap"
     },
     {
@@ -209,12 +197,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
-      "time": 19110,
-      "type": "tap"
-    },
-    {
-      "lane": 5,
+      "lane": 3,
       "time": 19435,
       "type": "tap"
     }

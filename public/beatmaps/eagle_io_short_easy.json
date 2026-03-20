@@ -2,47 +2,43 @@
   "title": "Eagle Ver.IO",
   "artist": "Tandess (Vocal: IO)",
   "difficulty": "EASY",
-  "bpm": 172,
+  "bpm": 86,
   "audioFile": "songs/eagle_io_short.mp3",
   "offset": 0,
   "notes": [
     {
-      "lane": 4,
-      "time": 2089,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 5,
       "time": 3390,
       "type": "tap"
     },
     {
-      "lane": 3,
-      "time": 4806,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
+      "lane": 4,
       "time": 6408,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 5,
       "time": 7825,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 9241,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 10657,
       "type": "tap"
     },
     {
       "lane": 3,
+      "time": 12074,
+      "type": "hold",
+      "duration": 1395
+    },
+    {
+      "lane": 4,
       "time": 12074,
       "type": "tap"
     },
@@ -52,27 +48,22 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 14883,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 16300,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 17716,
       "type": "tap"
     },
     {
       "lane": 4,
-      "time": 19133,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
       "time": 20526,
       "type": "tap"
     },
@@ -82,7 +73,7 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 23359,
       "type": "tap"
     },
@@ -92,17 +83,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 26192,
       "type": "tap"
     },
     {
-      "lane": 3,
-      "time": 27585,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
+      "lane": 4,
       "time": 29001,
       "type": "tap"
     },
@@ -112,17 +98,17 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 31834,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 33250,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 34667,
       "type": "tap"
     },
@@ -132,12 +118,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 37477,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 38893,
       "type": "tap"
     },
@@ -152,17 +138,17 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 43119,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 44535,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 45952,
       "type": "tap"
     },
@@ -172,12 +158,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 48785,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 50178,
       "type": "tap"
     },
@@ -192,17 +178,23 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 54427,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 55843,
       "type": "tap"
     },
     {
       "lane": 3,
+      "time": 57237,
+      "type": "hold",
+      "duration": 1395
+    },
+    {
+      "lane": 4,
       "time": 57237,
       "type": "tap"
     },
@@ -212,17 +204,17 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 60070,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 61486,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 62902,
       "type": "tap"
     }

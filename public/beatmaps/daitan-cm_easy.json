@@ -2,17 +2,12 @@
   "title": "DAI☆TAN センセーション",
   "artist": "Tandess (ななひら/Mii/藍月なくる)",
   "difficulty": "EASY",
-  "bpm": 172,
+  "bpm": 86,
   "audioFile": "songs/daitan-cm.mp3",
   "offset": 0,
   "notes": [
     {
-      "lane": 4,
-      "time": 2368,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 3,
       "time": 3738,
       "type": "tap"
     },
@@ -27,48 +22,49 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 7569,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 8939,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 10309,
       "type": "tap"
     },
     {
       "lane": 3,
       "time": 11702,
+      "type": "hold",
+      "duration": 1395
+    },
+    {
+      "lane": 5,
+      "time": 11702,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 13072,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 14466,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 15836,
       "type": "tap"
     },
     {
-      "lane": 3,
-      "time": 17205,
-      "type": "tap"
-    },
-    {
       "lane": 4,
-      "time": 18575,
+      "time": 17205,
       "type": "tap"
     }
   ]

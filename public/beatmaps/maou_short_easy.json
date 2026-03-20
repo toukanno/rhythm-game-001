@@ -2,7 +2,7 @@
   "title": "鬼畜魔王と童貞勇者",
   "artist": "Tandess (神威がくぽ×GUMI)",
   "difficulty": "EASY",
-  "bpm": 184,
+  "bpm": 92,
   "audioFile": "songs/maou_short.mp3",
   "offset": 0,
   "notes": [
@@ -12,7 +12,7 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 1,
       "time": 4527,
       "type": "tap"
     },
@@ -22,17 +22,17 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 2,
       "time": 7174,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 8475,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 9798,
       "type": "tap"
     },
@@ -42,18 +42,13 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 12120,
       "type": "tap"
     },
     {
-      "lane": 1,
-      "time": 13444,
-      "type": "tap"
-    },
-    {
       "lane": 3,
-      "time": 14744,
+      "time": 13444,
       "type": "tap"
     },
     {
@@ -62,12 +57,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 17391,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 18715,
       "type": "tap"
     },
@@ -77,23 +72,13 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 21339,
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 22662,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 2,
       "time": 23986,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
-      "time": 25518,
       "type": "tap"
     },
     {
@@ -102,12 +87,7 @@
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 28189,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 5,
       "time": 29489,
       "type": "tap"
     },
@@ -117,7 +97,7 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 5,
       "time": 31904,
       "type": "tap"
     },
@@ -127,12 +107,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 34528,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 35828,
       "type": "tap"
     },
@@ -142,37 +122,37 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 38475,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 39799,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 41122,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 42446,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 43769,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 45069,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 46393,
       "type": "tap"
     },
@@ -187,7 +167,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 50364,
       "type": "tap"
     },
@@ -199,20 +179,26 @@
     {
       "lane": 3,
       "time": 52987,
-      "type": "tap"
+      "type": "hold",
+      "duration": 1304
     },
     {
       "lane": 4,
-      "time": 54311,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
-      "time": 55635,
+      "time": 52987,
       "type": "tap"
     },
     {
       "lane": 3,
+      "time": 54311,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
+      "time": 55635,
+      "type": "tap"
+    },
+    {
+      "lane": 4,
       "time": 56958,
       "type": "tap"
     },
@@ -222,17 +208,17 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 59582,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 60905,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 62229,
       "type": "tap"
     },
@@ -242,12 +228,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 1,
       "time": 64853,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 66176,
       "type": "tap"
     },
@@ -267,7 +253,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 71447,
       "type": "tap"
     },
@@ -282,12 +268,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 75418,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 76741,
       "type": "tap"
     },
@@ -302,12 +288,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 80689,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 82012,
       "type": "tap"
     },
@@ -327,13 +313,8 @@
       "type": "tap"
     },
     {
-      "lane": 1,
-      "time": 87283,
-      "type": "tap"
-    },
-    {
       "lane": 3,
-      "time": 88607,
+      "time": 87283,
       "type": "tap"
     },
     {
@@ -342,28 +323,13 @@
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 91231,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 3,
       "time": 92554,
       "type": "tap"
     },
     {
       "lane": 3,
-      "time": 93878,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
       "time": 95178,
-      "type": "tap"
-    },
-    {
-      "lane": 4,
-      "time": 96664,
       "type": "tap"
     }
   ]

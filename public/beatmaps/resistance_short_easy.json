@@ -2,18 +2,13 @@
   "title": "干渉レジスタンス",
   "artist": "Tandess (Tandess)",
   "difficulty": "EASY",
-  "bpm": 184,
+  "bpm": 92,
   "audioFile": "songs/resistance_short.mp3",
   "offset": 0,
   "notes": [
     {
-      "lane": 1,
+      "lane": 2,
       "time": 2925,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
-      "time": 4249,
       "type": "tap"
     },
     {
@@ -22,18 +17,8 @@
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 6849,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
-      "time": 8150,
-      "type": "tap"
-    },
-    {
       "lane": 3,
-      "time": 9450,
+      "time": 8150,
       "type": "tap"
     },
     {
@@ -42,12 +27,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 12283,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 13676,
       "type": "tap"
     },
@@ -62,12 +47,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 17600,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 18901,
       "type": "tap"
     },
@@ -82,12 +67,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 22801,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 24125,
       "type": "tap"
     },
@@ -102,12 +87,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 28026,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 29326,
       "type": "tap"
     },
@@ -122,32 +107,32 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 33250,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 34551,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 35851,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 37151,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 2,
       "time": 38452,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 39775,
       "type": "tap"
     },
@@ -162,17 +147,17 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 2,
       "time": 43676,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 44977,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 46277,
       "type": "tap"
     },
@@ -182,17 +167,17 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 48878,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 50201,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 51501,
       "type": "tap"
     },
@@ -207,7 +192,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 55426,
       "type": "tap"
     },
@@ -217,17 +202,17 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 58026,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 2,
       "time": 59326,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 60627,
       "type": "tap"
     },
@@ -242,12 +227,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 64551,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 65851,
       "type": "tap"
     },
@@ -262,12 +247,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 69752,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 71076,
       "type": "tap"
     },
@@ -282,12 +267,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 74977,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 76300,
       "type": "tap"
     },
@@ -302,7 +287,7 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 80201,
       "type": "tap"
     }

@@ -2,18 +2,13 @@
   "title": "干渉レジスタンス (Gakupo)",
   "artist": "Tandess (神威がくぽ×GUMI)",
   "difficulty": "EASY",
-  "bpm": 184,
+  "bpm": 92,
   "audioFile": "songs/resistance_gakupo_short.mp3",
   "offset": 0,
   "notes": [
     {
-      "lane": 1,
-      "time": 2925,
-      "type": "tap"
-    },
-    {
       "lane": 3,
-      "time": 4226,
+      "time": 2925,
       "type": "tap"
     },
     {
@@ -22,12 +17,7 @@
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 6849,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 3,
       "time": 8150,
       "type": "tap"
     },
@@ -42,12 +32,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 12283,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 13676,
       "type": "tap"
     },
@@ -62,12 +52,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 17600,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 18901,
       "type": "tap"
     },
@@ -82,12 +72,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 22801,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 24125,
       "type": "tap"
     },
@@ -102,12 +92,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 28026,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 29350,
       "type": "tap"
     },
@@ -122,12 +112,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 33250,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 34551,
       "type": "tap"
     },
@@ -142,12 +132,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 2,
       "time": 38452,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 39775,
       "type": "tap"
     },
@@ -162,12 +152,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 43676,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 44977,
       "type": "tap"
     },
@@ -182,17 +172,17 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 48901,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 50201,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 51501,
       "type": "tap"
     }

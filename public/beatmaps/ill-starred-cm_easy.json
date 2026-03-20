@@ -7,102 +7,99 @@
   "offset": 0,
   "notes": [
     {
-      "lane": 3,
-      "time": 2856,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
+      "lane": 2,
       "time": 3761,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 2,
       "time": 4690,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 5572,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 1,
       "time": 6524,
+      "type": "tap"
+    },
+    {
+      "lane": 1,
+      "time": 7430,
       "type": "tap"
     },
     {
       "lane": 3,
       "time": 7430,
-      "type": "tap"
+      "type": "hold",
+      "duration": 930
     },
     {
-      "lane": 4,
+      "lane": 1,
       "time": 8359,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 9311,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 2,
       "time": 10193,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 1,
       "time": 11145,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 1,
       "time": 12097,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 13003,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 1,
       "time": 13908,
+      "type": "tap"
+    },
+    {
+      "lane": 1,
+      "time": 14860,
       "type": "tap"
     },
     {
       "lane": 3,
       "time": 14860,
-      "type": "tap"
+      "type": "hold",
+      "duration": 930
     },
     {
-      "lane": 4,
+      "lane": 0,
       "time": 15859,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 2,
       "time": 16880,
       "type": "tap"
     },
     {
-      "lane": 3,
-      "time": 17856,
-      "type": "tap"
-    },
-    {
-      "lane": 3,
+      "lane": 2,
       "time": 18784,
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 19736,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
+      "lane": 2,
       "time": 20665,
       "type": "tap"
     }

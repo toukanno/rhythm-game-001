@@ -2,17 +2,17 @@
   "title": "1・2の3・4",
   "artist": "Tandess (初音ミク & さとうささら)",
   "difficulty": "EASY",
-  "bpm": 172,
+  "bpm": 86,
   "audioFile": "songs/1234_short.mp3",
   "offset": 0,
   "notes": [
     {
-      "lane": 1,
+      "lane": 3,
       "time": 2786,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 4202,
       "type": "tap"
     },
@@ -27,17 +27,17 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 8428,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 9845,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 11261,
       "type": "tap"
     },
@@ -47,12 +47,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 14071,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 15487,
       "type": "tap"
     },
@@ -67,7 +67,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 19713,
       "type": "tap"
     },
@@ -82,12 +82,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 23962,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 25379,
       "type": "tap"
     },
@@ -107,7 +107,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 31021,
       "type": "tap"
     },
@@ -127,12 +127,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 36664,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 38080,
       "type": "tap"
     },
@@ -142,12 +142,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 40890,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 42306,
       "type": "tap"
     },
@@ -157,7 +157,7 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 45139,
       "type": "tap"
     },
@@ -167,7 +167,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 47949,
       "type": "tap"
     },
@@ -187,23 +187,18 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 53614,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 55008,
       "type": "tap"
     },
     {
-      "lane": 3,
-      "time": 56424,
-      "type": "tap"
-    },
-    {
       "lane": 4,
-      "time": 57631,
+      "time": 56424,
       "type": "tap"
     }
   ]

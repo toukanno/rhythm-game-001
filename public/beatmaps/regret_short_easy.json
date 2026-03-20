@@ -2,27 +2,22 @@
   "title": "KICK THE REGRET",
   "artist": "Tandess (Vocal: Shouji Hirono)",
   "difficulty": "EASY",
-  "bpm": 161,
+  "bpm": 81,
   "audioFile": "songs/regret_short.mp3",
   "offset": 0,
   "notes": [
     {
       "lane": 4,
-      "time": 2275,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
       "time": 3761,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 5247,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 6733,
       "type": "tap"
     },
@@ -32,27 +27,27 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 9682,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 11168,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 12654,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 14140,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 15627,
       "type": "tap"
     },
@@ -72,7 +67,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 21548,
       "type": "tap"
     },
@@ -82,17 +77,17 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 24520,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 25983,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 27469,
       "type": "tap"
     },
@@ -102,17 +97,17 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 30441,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 31904,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 33390,
       "type": "tap"
     },
@@ -132,12 +127,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 39311,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 40797,
       "type": "tap"
     },
@@ -152,7 +147,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 45255,
       "type": "tap"
     },
@@ -164,6 +159,12 @@
     {
       "lane": 3,
       "time": 48204,
+      "type": "hold",
+      "duration": 1481
+    },
+    {
+      "lane": 4,
+      "time": 48204,
       "type": "tap"
     },
     {
@@ -172,7 +173,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 51176,
       "type": "tap"
     },
@@ -187,12 +188,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 55635,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 5,
       "time": 57097,
       "type": "tap"
     },
@@ -204,6 +205,12 @@
     {
       "lane": 3,
       "time": 60070,
+      "type": "hold",
+      "duration": 1481
+    },
+    {
+      "lane": 4,
+      "time": 60070,
       "type": "tap"
     },
     {
@@ -212,7 +219,7 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 63042,
       "type": "tap"
     },
@@ -222,27 +229,33 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 5,
       "time": 65991,
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 67477,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 68963,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 70449,
       "type": "tap"
     },
     {
       "lane": 3,
+      "time": 71912,
+      "type": "hold",
+      "duration": 1481
+    },
+    {
+      "lane": 4,
       "time": 71912,
       "type": "tap"
     },
@@ -252,12 +265,12 @@
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 4,
       "time": 74884,
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 76370,
       "type": "tap"
     },
@@ -267,12 +280,12 @@
       "type": "tap"
     },
     {
-      "lane": 4,
+      "lane": 3,
       "time": 79342,
       "type": "tap"
     },
     {
-      "lane": 1,
+      "lane": 3,
       "time": 80851,
       "type": "tap"
     },
@@ -282,23 +295,13 @@
       "type": "tap"
     },
     {
-      "lane": 3,
+      "lane": 4,
       "time": 83870,
       "type": "tap"
     },
     {
-      "lane": 4,
-      "time": 85310,
-      "type": "tap"
-    },
-    {
-      "lane": 1,
-      "time": 86749,
-      "type": "tap"
-    },
-    {
       "lane": 3,
-      "time": 88189,
+      "time": 86749,
       "type": "tap"
     }
   ]
