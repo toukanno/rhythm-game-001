@@ -1,136 +1,79 @@
 # Rhythm Striker ★ — 7レーン リズムゲーム
 
-バンドリ！ガールズバンドパーティ！にインスパイアされた、完全オフラインで動作するブラウザベースの7レーンリズムゲームです。
+ガルパ（バンドリ！）風の7レーン落下型リズムゲーム。ブラウザだけで完結し、サーバー不要・完全オフラインで動作します。100曲×3難易度＝計300譜面を収録。
+
+**[▶ ブラウザで今すぐプレイ](https://toukanno.github.io/rhythm-game-001/)**
+
+<p align="center">
+  <img src="docs/screenshots/title.png" alt="タイトル画面" width="200" />
+  <img src="docs/screenshots/songselect.png" alt="選曲画面" width="200" />
+  <img src="docs/screenshots/gameplay.png" alt="プレイ画面" width="200" />
+</p>
 
 ## 特徴
 
-- **7レーン** のガルパスタイルゲームプレイ
-- **3種類のノーツ**: タップ、ロング（ホールド）、フリック
-- **判定システム**: Perfect / Great / Good / Bad / Miss
-- **コンボカウンター** & **スコア表示**
-- **ヒットエフェクト** アニメーション
-- **3画面構成**: 選曲画面 → プレイ画面 → リザルト画面
-- **デモ楽曲内蔵**: インストール直後にプレイ可能（音声はプログラムで自動生成）
-- **カスタム譜面対応**: JSON形式の譜面と音声ファイルを読み込み可能
-- **レスポンシブ対応**: デスクトップ（キーボード）とモバイル/タブレット（タッチ）の両方に対応
-- **完全オフライン**: サーバー不要、すべてブラウザ上で動作
+- **7レーン** ガルパスタイルの落下型プレイ
+- **3種ノーツ** — タップ / ロング（ホールド） / フリック
+- **5段階判定** — Perfect / Great / Good / Bad / Miss + コンボ & スコア
+- **100曲収録** — Easy / Normal / Hard の3難易度（計300譜面）
+- **カスタム譜面** — JSON + 音声ファイルを読み込み可能
+- **レスポンシブ** — キーボード（デスクトップ）& タッチ（モバイル/タブレット）
+- **iOS対応** — Capacitor でネイティブアプリ化可能
+- **完全オフライン** — 静的ファイルのみ、サーバー不要
 
 ## セットアップ
 
-### 必要なもの
-
-- Node.js 18以上
-- npm
-
-### インストール & 起動
+**必要環境:** Node.js 18+ / npm
 
 ```bash
-# リポジトリをクローン
 git clone https://github.com/toukanno/rhythm-game-001.git
 cd rhythm-game-001
-
-# 依存パッケージをインストール
 npm install
-
-# 開発サーバーを起動
-npm run dev
+npm run dev        # → http://localhost:5173
 ```
 
-ブラウザで `http://localhost:5173` を開いてください。
-
-### 本番ビルド
+### ビルド
 
 ```bash
-npm run build
+npm run build      # dist/ に本番ビルドを出力
+npm run preview    # ビルド結果をローカルでプレビュー
 ```
 
-`dist/` フォルダに出力されます。任意の静的ファイルサーバーでホスト可能です。
+### iOS ビルド (Capacitor)
+
+macOS 13+ / Xcode 15+ / Apple Developer アカウントが必要です。
 
 ```bash
-# ビルド結果をプレビュー
-npm run preview
+npm run build:cap       # Capacitor 用ウェブビルド
+npm run cap:sync        # iOS プロジェクトに同期
+npm run cap:open:ios    # Xcode で開く
 ```
 
-### iOS アプリビルド (Capacitor)
-
-iOSアプリとしてビルドし、App Storeに公開できます。
-
-#### 必要な環境
-
-- macOS 13 (Ventura) 以上
-- Xcode 15 以上 (App Store からインストール)
-- Node.js 18 以上
-- Apple Developer アカウント (App Store 公開時に必要)
-
-#### ビルド手順
-
-```bash
-# 1. リポジトリをクローン
-git clone https://github.com/toukanno/rhythm-game-001.git
-cd rhythm-game-001
-
-# 2. 依存パッケージをインストール
-npm install
-
-# 3. Capacitor 用にウェブアセットをビルド
-npm run build:cap
-
-# 4. iOS プロジェクトにウェブアセットを同期
-npm run cap:sync
-
-# 5. Xcode でプロジェクトを開く
-npm run cap:open:ios
-```
-
-#### Xcode での操作
-
-1. Xcode が開いたら、左上の **App** ターゲットを選択
-2. **Signing & Capabilities** タブで Apple Developer アカウントを設定
-3. ターゲットデバイス (シミュレーターまたは実機) を選択
-4. **▶ Run** ボタンでビルド・実行
-
-#### App Store への提出
-
-1. Xcode メニューから **Product → Archive** を実行
-2. **Distribute App** を選択
-3. **App Store Connect** を選んでアップロード
-4. [App Store Connect](https://appstoreconnect.apple.com/) でアプリ情報を入力して審査に提出
-
-#### アプリ情報
+Xcode で Signing を設定後、Run またはArchive → App Store Connect へ提出できます。
 
 | 項目 | 値 |
 |------|-----|
-| アプリ名 | リズムストライカー |
 | Bundle ID | `com.toukanno.rhythmstriker` |
-| バージョン | 1.0.0 |
 | 最小 iOS | 15.0 |
-| 対応向き | 縦画面のみ (ポートレート) |
-| 音楽再生 | バックグラウンドオーディオ対応 |
+| 画面向き | 縦画面 (ポートレート) |
 
 ## 操作方法
 
-### デスクトップ（キーボード）
+### キーボード
 
-| キー | レーン |
-|------|--------|
-| A | レーン 1 |
-| S | レーン 2 |
-| D | レーン 3 |
-| F | レーン 4（中央） |
-| J | レーン 5 |
-| K | レーン 6 |
-| L | レーン 7 |
-| ESC | 一時停止 |
+| キー | A | S | D | F | J | K | L |
+|------|---|---|---|---|---|---|---|
+| レーン | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 
-### モバイル / タブレット
+**ESC** で一時停止 / 設定画面からキーバインド変更可能
 
-画面下部のタップゾーンを直接タッチしてプレイします。
+### タッチ
+
+画面下部のタップゾーンを直接タッチ。
 
 ## カスタム譜面
 
-選曲画面の「カスタム譜面を読み込む」ボタンから、自作の譜面を読み込めます。
-
-### 譜面フォーマット（JSON）
+選曲画面の「カスタム譜面を読み込む」から JSON ファイルを読み込めます。
 
 ```json
 {
@@ -148,65 +91,57 @@ npm run cap:open:ios
 }
 ```
 
-### ノーツの仕様
-
 | フィールド | 説明 |
 |-----------|------|
 | `lane` | 0〜6（7レーン） |
-| `time` | 曲開始からの判定タイミング（ミリ秒） |
+| `time` | 曲開始からのタイミング (ms) |
 | `type` | `"tap"` / `"hold"` / `"flick"` |
-| `duration` | ホールドノーツの長さ（ミリ秒）※ `hold` の場合のみ |
+| `duration` | ホールド長 (ms) — `hold` のみ |
 
 ## 技術スタック
 
-- **Vite** — ビルドツール
-- **TypeScript** — 型安全な開発
-- **HTML5 Canvas** — ゲーム描画
-- **Web Audio API** — 音声再生 & デモ楽曲生成
+| 技術 | 用途 |
+|------|------|
+| TypeScript (strict) | 型安全な開発 |
+| Vite 8 | ビルド & 開発サーバー |
+| HTML5 Canvas | ゲーム描画 |
+| Web Audio API | 音声再生 & デモ曲生成 |
+| Capacitor 8 | iOS ネイティブアプリ化 |
 
-## プロジェクト構成
+ランタイム依存なし — ブラウザ API のみで動作します。
+
+## ディレクトリ構成
 
 ```
 src/
-├── main.ts              # アプリケーションエントリーポイント
-├── style.css            # グローバルスタイル
+├── main.ts                  # エントリーポイント (画面遷移管理)
+├── style.css                # グローバルスタイル
 ├── engine/
-│   ├── types.ts         # 型定義 & 定数
-│   ├── game.ts          # ゲームエンジン本体
-│   ├── renderer.ts      # Canvas描画
-│   ├── audio.ts         # 音声管理 & デモ曲生成
-│   ├── input.ts         # キーボード & タッチ入力
-│   └── keyConfig.ts     # キー設定 & localStorage 永続化
+│   ├── types.ts             # 型定義 & 定数
+│   ├── game.ts              # ゲームループ & 判定ロジック
+│   ├── renderer.ts          # Canvas 描画
+│   ├── audio.ts             # Web Audio 管理 & デモ曲生成
+│   ├── input.ts             # キーボード & タッチ入力
+│   └── keyConfig.ts         # キーバインド設定 (localStorage)
 ├── screens/
-│   ├── title.ts         # タイトル画面
-│   ├── songSelect.ts    # 選曲画面
-│   ├── gameplay.ts      # プレイ画面
-│   └── results.ts       # リザルト画面
+│   ├── title.ts             # タイトル画面
+│   ├── songSelect.ts        # 選曲画面
+│   ├── gameplay.ts          # プレイ画面
+│   ├── results.ts           # リザルト画面
+│   └── settings.ts          # キー設定画面
 └── beatmaps/
-    └── customLoader.ts  # カスタム譜面読み込み
+    ├── demo.ts              # デモ譜面生成
+    └── customLoader.ts      # カスタム譜面読み込み
 ```
 
-## 楽曲クレジット / Music Credits
-
-本ゲームに収録されている全100曲は以下のフリー音源を使用しています。
+## 楽曲クレジット
 
 | ソース | 曲数 | クレジット |
 |--------|------|-----------|
-| [Tandess / Trial & Error](https://www.tandess.com/music/) | 71曲 | 作曲: 阪神 総一 (Souichi Sakagami) |
+| [Tandess / Trial & Error](https://www.tandess.com/music/) | 71曲 | 作曲: 阪神 総一 |
 | [魔王魂](https://maou.audio/) | 29曲 | 作曲: 森田交一 |
 
-Tandess 楽曲にはオリジナルボーカル曲のほか、初音ミク・GUMI・神威がくぽ・さとうささら等のボーカロイド楽曲も含まれています。魔王魂の楽曲は日本語ボーカル楽曲です。各曲にイージー・ノーマル・ハードの3難易度を収録 (計300譜面)。
-
-## 拡張予定
-
-このプロジェクトは以下の機能を追加できるように設計されています：
-
-- ガチャシステム
-- ストーリーモード
-- キャラクター & バンド
-- オンラインランキング
-- 譜面エディター
-- スキン / テーマ変更
+各曲に Easy / Normal / Hard の3難易度を収録（計300譜面）。
 
 ## ライセンス
 
