@@ -7,8 +7,8 @@ export function renderLobbyScreen(
   onBack: () => void,
 ): void {
   const diffLabels = ['イージー', 'ノーマル', 'ハード'];
-  const currentDiff = keyConfig.defaultDifficulty || 'normal';
-  const diffIndex = currentDiff === 'easy' ? 0 : currentDiff === 'hard' ? 2 : 1;
+  const currentDiff = keyConfig.defaultDifficulty || 'NORMAL';
+  const diffIndex = currentDiff === 'EASY' ? 0 : currentDiff === 'HARD' ? 2 : 1;
 
   container.innerHTML = `
     <div class="screen lobby-screen">
@@ -86,9 +86,8 @@ export function renderLobbyScreen(
     btn.addEventListener('click', () => {
       container.querySelectorAll('#lobby-diff .toggle-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const diff = (btn as HTMLElement).dataset.diff || 'normal';
-      keyConfig.defaultDifficulty = diff;
-      keyConfig.save();
+      const diff = ((btn as HTMLElement).dataset.diff || 'NORMAL').toUpperCase() as import('../engine/keyConfig').DifficultyOption;
+      keyConfig.setDefaultDifficulty(diff);
     });
   });
 
@@ -97,9 +96,8 @@ export function renderLobbyScreen(
     btn.addEventListener('click', () => {
       container.querySelectorAll('#lobby-lanes .toggle-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const lanes = parseInt((btn as HTMLElement).dataset.lanes || '6');
-      keyConfig.laneCount = lanes;
-      keyConfig.save();
+      const lanes = parseInt((btn as HTMLElement).dataset.lanes || '6') as import('../engine/keyConfig').LaneCountOption;
+      keyConfig.setLaneCount(lanes);
     });
   });
 
@@ -124,7 +122,6 @@ export function renderLobbyScreen(
   const offVal = container.querySelector('#lobby-offset-val')!;
   offSlider?.addEventListener('input', () => {
     offVal.textContent = `${offSlider.value}ms`;
-    keyConfig.timingOffset = parseInt(offSlider.value);
-    keyConfig.save();
+    keyConfig.setTimingOffset(parseInt(offSlider.value));
   });
 }
