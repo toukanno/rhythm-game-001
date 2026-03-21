@@ -6,13 +6,12 @@ export interface SongEntry {
   audioBuffer?: AudioBuffer;
 }
 
-/** A song grouped by audio file, with entries per difficulty. */
 interface SongGroup {
   title: string;
   artist: string;
   audioFile: string;
   bpm: number;
-  entries: Record<string, SongEntry>; // key = 'EASY' | 'NORMAL' | 'HARD'
+  entries: Record<string, SongEntry>;
 }
 
 function artGradient(title: string): string {
@@ -31,7 +30,6 @@ function artIcon(title: string): string {
   return icons[Math.abs(hash) % icons.length];
 }
 
-/** Estimate a difficulty level (1-20) from note count & BPM */
 function estimateLevel(beatmap: Beatmap): number {
   const noteCount = beatmap.notes.length;
   if (noteCount === 0) return 1;
@@ -39,7 +37,12 @@ function estimateLevel(beatmap: Beatmap): number {
   const durationSec = Math.max((lastNote.time + (lastNote.duration || 0)) / 1000, 10);
   const nps = noteCount / durationSec;
   const level = Math.round(1 + (nps / 8) * 19);
-  return Math.max(1, Math.min(20, level));
+  return Math.max(1, Math.min(26, level));
+}
+
+function starRating(level: number): string {
+  const stars = Math.min(5, Math.ceil(level / 5));
+  return '★'.repeat(stars) + '☆'.repeat(5 - stars);
 }
 
 function groupSongs(songs: SongEntry[]): SongGroup[] {
@@ -60,19 +63,14 @@ function groupSongs(songs: SongEntry[]): SongGroup[] {
   return Array.from(map.values());
 }
 
-function getMaxLevel(group: SongGroup): number {
-  let max = 0;
-  for (const entry of Object.values(group.entries)) {
-    max = Math.max(max, estimateLevel(entry.beatmap));
-  }
-  return max;
-}
-
-const DIFF_META: Array<{ key: DifficultyOption; label: string; color: string }> = [
-  { key: 'EASY', label: 'イージー', color: '#4FC3F7' },
-  { key: 'NORMAL', label: 'ノーマル', color: '#66BB6A' },
-  { key: 'HARD', label: 'エキスパート', color: '#EF5350' },
+const DIFF_META: Array<{ key: DifficultyOption; label: string; color: string; iconClass: string }> = [
+  { key: 'EASY', label: 'EASY', color: '#4FC3F7', iconClass: 'diff-easy' },
+  { key: 'NORMAL', label: 'NORMAL', color: '#66BB6A', iconClass: 'diff-normal' },
+  { key: 'HARD', label: 'HARD', color: '#FF9800', iconClass: 'diff-hard' },
 ];
+
+// Add EXPERT as alias for HARD with higher threshold
+const CATEGORIES = ['すべて', 'ボーカル', 'インスト', 'お気に入り'];
 
 export function renderSongSelectScreen(
   container: HTMLElement,
@@ -84,103 +82,115 @@ export function renderSongSelectScreen(
   const groups = groupSongs(songs);
   let selectedIndex = 0;
   let selectedDiff: DifficultyOption = keyConfig.defaultDifficulty || 'HARD';
+  let selectedCategory = 0;
 
   container.innerHTML = `
-    <div class="screen ss2">
-      <div class="ss2-bg"></div>
-
-      <!-- Left panel: song list -->
-      <div class="ss2-left">
-        <div class="ss2-left-header">
-          ${onBack ? '<button class="ss2-back" id="ss2-back">\u2190</button>' : ''}
-          <span class="ss2-header-title">\u697D\u66F2\u9078\u629E</span>
-        </div>
-        <div class="ss2-list" id="ss2-list"></div>
-        <div class="ss2-list-footer">
-          <button class="ss2-footer-btn" id="ss2-custom" title="\u30AB\u30B9\u30BF\u30E0\u8B5C\u9762\u3092\u8AAD\u307F\u8FBC\u3080">\uFF0B \u30AB\u30B9\u30BF\u30E0</button>
+    <div class="screen garupa-select">
+      <!-- Top bar -->
+      <div class="gs-topbar">
+        <button class="gs-back-btn" id="gs-back">◀</button>
+        <div class="gs-topbar-label">フリーライブ</div>
+        <div class="gs-topbar-title">楽曲選択</div>
+        <div class="gs-topbar-right">
+          <button class="gs-filter-btn" id="gs-filter">絞り込み</button>
         </div>
       </div>
 
-      <!-- Right panel: detail -->
-      <div class="ss2-right" id="ss2-right">
-        <div class="ss2-detail-top">
-          <div class="ss2-jacket" id="ss2-jacket"></div>
-          <div class="ss2-meta" id="ss2-meta"></div>
+      <div class="gs-main">
+        <!-- Left: Categories -->
+        <div class="gs-categories" id="gs-categories">
+          ${CATEGORIES.map((cat, i) => `
+            <button class="gs-cat-btn ${i === 0 ? 'gs-cat-active' : ''}" data-cat="${i}">${cat}</button>
+          `).join('')}
+          <button class="gs-cat-btn gs-cat-custom" id="gs-custom-btn">＋ カスタム</button>
         </div>
-        <div class="ss2-detail-bottom">
-          <div class="ss2-diffs" id="ss2-diffs"></div>
-          <button class="ss2-play-btn" id="ss2-play">PLAY</button>
+
+        <!-- Center: Song list -->
+        <div class="gs-songlist" id="gs-songlist"></div>
+
+        <!-- Right: Detail panel -->
+        <div class="gs-detail">
+          <div class="gs-jacket" id="gs-jacket"></div>
+          <div class="gs-info-panel">
+            <div class="gs-score-row">
+              <span class="gs-score-label">ハイスコアレーティング</span>
+              <span class="gs-score-val" id="gs-score">—</span>
+            </div>
+            <div class="gs-score-row">
+              <span class="gs-score-label">ハイスコア</span>
+              <span class="gs-score-val" id="gs-hiscore">0</span>
+            </div>
+            <div class="gs-score-row">
+              <span class="gs-score-label">楽曲レベル</span>
+              <span class="gs-score-val gs-level" id="gs-level">—</span>
+            </div>
+          </div>
+
+          <!-- Difficulty buttons -->
+          <div class="gs-diff-row" id="gs-diffs"></div>
+
+          <!-- Bottom actions -->
+          <div class="gs-actions">
+            <button class="gs-random-btn" id="gs-random">🔀 ランダム<br>選曲</button>
+            <button class="gs-decide-btn" id="gs-decide">決定</button>
+          </div>
         </div>
       </div>
     </div>
   `;
 
-  const listEl = container.querySelector('#ss2-list') as HTMLElement;
+  const listEl = container.querySelector('#gs-songlist') as HTMLElement;
 
-  // Render song list items
-  groups.forEach((group, idx) => {
-    const art = artGradient(group.title);
-    const maxLv = getMaxLevel(group);
-    const item = document.createElement('div');
-    item.className = 'ss2-item' + (idx === selectedIndex ? ' ss2-item--active' : '');
-    item.dataset.idx = String(idx);
-    const icon = artIcon(group.title);
-    item.innerHTML = `
-      <div class="ss2-item-art" style="background:${art}"><span class="ss2-art-icon">${icon}</span></div>
-      <div class="ss2-item-info">
-        <span class="ss2-item-title">${group.title}</span>
-        <span class="ss2-item-artist">${group.artist}</span>
-      </div>
-      <span class="ss2-item-bpm">${group.bpm}</span>
-      <span class="ss2-item-lv">Lv.${maxLv}</span>
-    `;
-    listEl.appendChild(item);
-  });
+  // Render song list
+  function renderList(): void {
+    listEl.innerHTML = '';
+    groups.forEach((group, idx) => {
+      const maxLv = Math.max(...Object.values(group.entries).map(e => estimateLevel(e.beatmap)));
+      const stars = starRating(maxLv);
+      const isActive = idx === selectedIndex;
+
+      const item = document.createElement('div');
+      item.className = 'gs-song-item' + (isActive ? ' gs-song-active' : '');
+      item.dataset.idx = String(idx);
+      item.innerHTML = `
+        <div class="gs-song-stars">${stars}</div>
+        <div class="gs-song-title">${group.title}</div>
+        ${group.artist ? `<div class="gs-song-artist">${group.artist}</div>` : ''}
+      `;
+      listEl.appendChild(item);
+    });
+  }
 
   function updateDetail(): void {
     if (groups.length === 0) return;
     const group = groups[selectedIndex];
     const art = artGradient(group.title);
+    const icon = artIcon(group.title);
 
     // Jacket
-    const jacketEl = container.querySelector('#ss2-jacket') as HTMLElement;
+    const jacketEl = container.querySelector('#gs-jacket') as HTMLElement;
     jacketEl.style.background = art;
-    const icon = artIcon(group.title);
-    jacketEl.innerHTML = `<div class="ss2-jacket-icon">${icon}</div><div class="ss2-jacket-title">${group.title}</div><div class="ss2-jacket-artist">${group.artist}</div>`;
+    jacketEl.innerHTML = `<div class="gs-jacket-icon">${icon}</div><div class="gs-jacket-title">${group.title}</div>`;
 
-    // Meta info
-    const metaEl = container.querySelector('#ss2-meta') as HTMLElement;
-    metaEl.innerHTML = `
-      <div class="ss2-meta-row"><span class="ss2-meta-label">HI-SCORE</span><span class="ss2-meta-val">\u2014</span></div>
-      <div class="ss2-meta-row"><span class="ss2-meta-label">COMBO</span><span class="ss2-meta-val">0</span></div>
-      <div class="ss2-meta-row"><span class="ss2-meta-label">BPM</span><span class="ss2-meta-val">${group.bpm}</span></div>
-      <div class="ss2-meta-row"><span class="ss2-meta-label">Composer</span><span class="ss2-meta-val">${group.artist}</span></div>
-    `;
+    // Score info
+    const entry = group.entries[selectedDiff] || Object.values(group.entries)[0];
+    const lv = entry ? estimateLevel(entry.beatmap) : 0;
+    const noteCount = entry ? entry.beatmap.notes.length : 0;
 
-    // If selected diff doesn't exist, select first available
-    const availableDiffs = DIFF_META.filter(d => group.entries[d.key]);
-    if (!group.entries[selectedDiff] && availableDiffs.length > 0) {
-      selectedDiff = availableDiffs[availableDiffs.length - 1].key;
-    }
+    (container.querySelector('#gs-level') as HTMLElement).textContent = String(lv);
+    (container.querySelector('#gs-score') as HTMLElement).textContent = String(noteCount);
 
     // Difficulty buttons
-    const diffsEl = container.querySelector('#ss2-diffs') as HTMLElement;
+    const diffsEl = container.querySelector('#gs-diffs') as HTMLElement;
     diffsEl.innerHTML = '';
     for (const dm of DIFF_META) {
-      const entry = group.entries[dm.key];
-      if (!entry) continue;
-      const lv = estimateLevel(entry.beatmap);
-      const noteCount = entry.beatmap.notes.length;
+      const e = group.entries[dm.key];
+      if (!e) continue;
       const isActive = dm.key === selectedDiff;
       const btn = document.createElement('button');
-      btn.className = 'ss2-diff-btn' + (isActive ? ' ss2-diff-btn--active' : '');
-      btn.style.setProperty('--diff-color', dm.color);
+      btn.className = 'gs-diff-btn ' + dm.iconClass + (isActive ? ' gs-diff-active' : '');
       btn.dataset.diff = dm.key;
-      btn.innerHTML = `
-        <span class="ss2-diff-label">${dm.label}</span>
-        <span class="ss2-diff-lv">${lv}</span>
-        <span class="ss2-diff-notes">${noteCount}ノーツ</span>
-      `;
+      btn.innerHTML = `<span class="gs-diff-label">${dm.label}</span>`;
       btn.addEventListener('click', () => {
         selectedDiff = dm.key;
         updateDetail();
@@ -189,73 +199,65 @@ export function renderSongSelectScreen(
     }
 
     // Highlight active list item
-    listEl.querySelectorAll('.ss2-item').forEach((el, i) => {
-      el.classList.toggle('ss2-item--active', i === selectedIndex);
+    listEl.querySelectorAll('.gs-song-item').forEach((el, i) => {
+      el.classList.toggle('gs-song-active', i === selectedIndex);
     });
-
-    // Scroll active item into view
-    const activeItem = listEl.querySelector('.ss2-item--active');
+    const activeItem = listEl.querySelector('.gs-song-active');
     if (activeItem) activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
-  // Click song list item
+  // Events
   listEl.addEventListener('click', (e) => {
-    const item = (e.target as HTMLElement).closest('.ss2-item') as HTMLElement;
+    const item = (e.target as HTMLElement).closest('.gs-song-item') as HTMLElement;
     if (!item) return;
     selectedIndex = parseInt(item.dataset.idx || '0');
     updateDetail();
   });
 
-  // Play button
-  container.querySelector('#ss2-play')!.addEventListener('click', () => {
+  container.querySelector('#gs-decide')!.addEventListener('click', () => {
     if (groups.length === 0) return;
     const group = groups[selectedIndex];
     const entry = group.entries[selectedDiff] || Object.values(group.entries)[0];
     if (entry) onSelect(entry);
   });
 
-  // Custom load
-  container.querySelector('#ss2-custom')?.addEventListener('click', onCustomLoad);
+  container.querySelector('#gs-random')!.addEventListener('click', () => {
+    if (groups.length === 0) return;
+    selectedIndex = Math.floor(Math.random() * groups.length);
+    updateDetail();
+  });
 
-  // Back
-  container.querySelector('#ss2-back')?.addEventListener('click', () => onBack?.());
+  container.querySelector('#gs-back')?.addEventListener('click', () => onBack?.());
+  container.querySelector('#gs-custom-btn')?.addEventListener('click', onCustomLoad);
 
-  // Keyboard navigation
+  // Category buttons
+  container.querySelectorAll('.gs-cat-btn[data-cat]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.gs-cat-btn').forEach(b => b.classList.remove('gs-cat-active'));
+      btn.classList.add('gs-cat-active');
+    });
+  });
+
+  // Keyboard
   const keyHandler = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      selectedIndex = Math.max(0, selectedIndex - 1);
-      updateDetail();
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      selectedIndex = Math.min(groups.length - 1, selectedIndex + 1);
-      updateDetail();
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault();
+    if (e.key === 'ArrowUp') { e.preventDefault(); selectedIndex = Math.max(0, selectedIndex - 1); updateDetail(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); selectedIndex = Math.min(groups.length - 1, selectedIndex + 1); updateDetail(); }
+    else if (e.key === 'ArrowLeft') {
       const avail = DIFF_META.filter(d => groups[selectedIndex]?.entries[d.key]);
       const ci = avail.findIndex(d => d.key === selectedDiff);
       if (ci > 0) { selectedDiff = avail[ci - 1].key; updateDetail(); }
     } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
       const avail = DIFF_META.filter(d => groups[selectedIndex]?.entries[d.key]);
       const ci = avail.findIndex(d => d.key === selectedDiff);
       if (ci < avail.length - 1) { selectedDiff = avail[ci + 1].key; updateDetail(); }
     } else if (e.key === 'Enter') {
-      e.preventDefault();
       const group = groups[selectedIndex];
-      if (group) {
-        const entry = group.entries[selectedDiff] || Object.values(group.entries)[0];
-        if (entry) onSelect(entry);
-      }
-    } else if (e.key === 'Escape') {
-      cleanup();
-      onBack?.();
-    }
+      if (group) { const entry = group.entries[selectedDiff] || Object.values(group.entries)[0]; if (entry) onSelect(entry); }
+    } else if (e.key === 'Escape') { cleanup(); onBack?.(); }
   };
-
   const cleanup = () => window.removeEventListener('keydown', keyHandler);
   window.addEventListener('keydown', keyHandler);
 
-  // Initial render
+  renderList();
   updateDetail();
 }
