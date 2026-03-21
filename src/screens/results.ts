@@ -23,35 +23,54 @@ export function renderResultsScreen(
 ): void {
   const { rank, stars } = getRank(state);
   const total = Object.values(state.judgments).reduce((a, b) => a + b, 0);
-  const starDisplay = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+  const starDisplay = '\u2605'.repeat(stars) + '\u2606'.repeat(5 - stars);
+
+  // Check for Full Combo / All Perfect
+  const missCount = state.judgments.bad + state.judgments.safe + state.judgments.late;
+  const isFullCombo = missCount === 0 && total > 0;
+  const isAllPerfect = isFullCombo && state.judgments.good === 0 && state.judgments.great === 0;
+
+  let bannerHtml = '';
+  if (isAllPerfect) {
+    bannerHtml = '<div class="result-banner result-banner--ap">ALL PERFECT</div>';
+  } else if (isFullCombo) {
+    bannerHtml = '<div class="result-banner result-banner--fc">FULL COMBO</div>';
+  }
 
   const judgmentRows = ALL_JUDGMENTS
-    .map(j => `
+    .map(j => {
+      const count = state.judgments[j];
+      const pct = total > 0 ? (count / total) * 100 : 0;
+      return `
       <div class="result-judgment">
+        <div class="rj-bar" style="width:${pct}%;background:${JUDGMENT_COLORS[j]}"></div>
         <span class="rj-label" style="color:${JUDGMENT_COLORS[j]}">${JUDGMENT_LABELS[j]}</span>
-        <span class="rj-count">${state.judgments[j]}</span>
+        <span class="rj-count">${count}</span>
       </div>
-    `).join('');
+    `;
+    }).join('');
 
   container.innerHTML = `
     <div class="screen results-screen">
-      <h2 class="screen-title">リザルト</h2>
+      <h2 class="screen-title">\u30EA\u30B6\u30EB\u30C8</h2>
       <p class="result-song">${songTitle}</p>
 
       <div class="result-rank rank-${rank.toLowerCase()}">${rank}</div>
       <div class="result-stars">${starDisplay}</div>
 
+      ${bannerHtml}
+
       <div class="result-score">${state.score.toLocaleString()}</div>
-      <p class="result-label">スコア</p>
+      <p class="result-label">\u30B9\u30B3\u30A2</p>
 
       <div class="result-stats">
         <div class="result-stat">
           <span class="stat-val">${state.maxCombo}</span>
-          <span class="stat-label">最大コンボ</span>
+          <span class="stat-label">\u6700\u5927\u30B3\u30F3\u30DC</span>
         </div>
         <div class="result-stat">
           <span class="stat-val">${total}</span>
-          <span class="stat-label">総ノーツ</span>
+          <span class="stat-label">\u7DCF\u30CE\u30FC\u30C4</span>
         </div>
       </div>
 
@@ -60,8 +79,8 @@ export function renderResultsScreen(
       </div>
 
       <div class="result-actions">
-        <button class="btn btn-primary" id="btn-retry">もう一度</button>
-        <button class="btn btn-secondary" id="btn-back">曲選択へ</button>
+        <button class="btn btn-primary" id="btn-retry">\u3082\u3046\u4E00\u5EA6</button>
+        <button class="btn btn-secondary" id="btn-back">\u66F2\u9078\u629E\u3078</button>
       </div>
     </div>
   `;

@@ -84,12 +84,12 @@ export function renderSongSelectScreen(
       <!-- Left panel: song list -->
       <div class="ss2-left">
         <div class="ss2-left-header">
-          ${onBack ? '<button class="ss2-back" id="ss2-back">←</button>' : ''}
-          <span class="ss2-header-title">楽曲選択</span>
+          ${onBack ? '<button class="ss2-back" id="ss2-back">\u2190</button>' : ''}
+          <span class="ss2-header-title">\u697D\u66F2\u9078\u629E</span>
         </div>
         <div class="ss2-list" id="ss2-list"></div>
         <div class="ss2-list-footer">
-          <button class="ss2-footer-btn" id="ss2-custom" title="カスタム譜面を読み込む">＋ カスタム</button>
+          <button class="ss2-footer-btn" id="ss2-custom" title="\u30AB\u30B9\u30BF\u30E0\u8B5C\u9762\u3092\u8AAD\u307F\u8FBC\u3080">\uFF0B \u30AB\u30B9\u30BF\u30E0</button>
         </div>
       </div>
 
@@ -120,7 +120,9 @@ export function renderSongSelectScreen(
       <div class="ss2-item-art" style="background:${art}"></div>
       <div class="ss2-item-info">
         <span class="ss2-item-title">${group.title}</span>
+        <span class="ss2-item-artist">${group.artist}</span>
       </div>
+      <span class="ss2-item-bpm">${group.bpm}</span>
       <span class="ss2-item-lv">${maxLv}</span>
     `;
     listEl.appendChild(item);
@@ -139,7 +141,7 @@ export function renderSongSelectScreen(
     // Meta info
     const metaEl = container.querySelector('#ss2-meta') as HTMLElement;
     metaEl.innerHTML = `
-      <div class="ss2-meta-row"><span class="ss2-meta-label">HI-SCORE</span><span class="ss2-meta-val">—</span></div>
+      <div class="ss2-meta-row"><span class="ss2-meta-label">HI-SCORE</span><span class="ss2-meta-val">\u2014</span></div>
       <div class="ss2-meta-row"><span class="ss2-meta-label">COMBO</span><span class="ss2-meta-val">0</span></div>
       <div class="ss2-meta-row"><span class="ss2-meta-label">BPM</span><span class="ss2-meta-val">${group.bpm}</span></div>
       <div class="ss2-meta-row"><span class="ss2-meta-label">Composer</span><span class="ss2-meta-val">${group.artist}</span></div>
@@ -158,6 +160,7 @@ export function renderSongSelectScreen(
       const entry = group.entries[dm.key];
       if (!entry) continue;
       const lv = estimateLevel(entry.beatmap);
+      const noteCount = entry.beatmap.notes.length;
       const isActive = dm.key === selectedDiff;
       const btn = document.createElement('button');
       btn.className = 'ss2-diff-btn' + (isActive ? ' ss2-diff-btn--active' : '');
@@ -166,6 +169,7 @@ export function renderSongSelectScreen(
       btn.innerHTML = `
         <span class="ss2-diff-label">${dm.label}</span>
         <span class="ss2-diff-lv">${lv}</span>
+        <span class="ss2-diff-notes">${noteCount} notes</span>
       `;
       btn.addEventListener('click', () => {
         selectedDiff = dm.key;
