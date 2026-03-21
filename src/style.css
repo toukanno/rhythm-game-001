@@ -1348,3 +1348,296 @@ html, body {
     padding-right: env(safe-area-inset-right, 0px);
   }
 }
+
+/* ===== ガルパ風曲選択 (garupa-select) ===== */
+.garupa-select {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: linear-gradient(180deg, #1a0a2e, #2d1050, #1a0a2e);
+  overflow: hidden;
+}
+
+.gs-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: linear-gradient(90deg, rgba(255,105,180,0.15), rgba(180,80,200,0.1));
+  border-bottom: 2px solid rgba(255,105,180,0.3);
+  flex-shrink: 0;
+}
+.gs-back-btn {
+  background: rgba(255,105,180,0.2);
+  border: 1px solid rgba(255,105,180,0.4);
+  color: #FF69B4;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.gs-topbar-label {
+  background: #FF69B4;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.gs-topbar-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+.gs-topbar-right { margin-left: auto; }
+.gs-filter-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #ccc;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.gs-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Categories sidebar */
+.gs-categories {
+  width: 120px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 4px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.2);
+  border-right: 1px solid rgba(255,105,180,0.15);
+}
+.gs-cat-btn {
+  padding: 10px 8px;
+  border: none;
+  background: transparent;
+  color: #999;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  text-align: left;
+  transition: all 0.2s;
+}
+.gs-cat-btn.gs-cat-active {
+  background: linear-gradient(90deg, #FF69B4, #cc5599);
+  color: #fff;
+}
+.gs-cat-btn:hover:not(.gs-cat-active) { background: rgba(255,105,180,0.1); color: #ddd; }
+.gs-cat-custom { color: #FF69B4; font-size: 12px; margin-top: 8px; border-top: 1px solid rgba(255,105,180,0.1); padding-top: 12px; }
+
+/* Song list (center) */
+.gs-songlist {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px;
+  min-width: 200px;
+}
+.gs-song-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 2px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.gs-song-item:hover { background: rgba(255,105,180,0.08); }
+.gs-song-active {
+  background: linear-gradient(90deg, rgba(255,105,180,0.3), rgba(255,105,180,0.15)) !important;
+  border-color: #FF69B4 !important;
+}
+.gs-song-stars {
+  font-size: 10px;
+  color: #FF69B4;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+.gs-song-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gs-song-artist {
+  font-size: 11px;
+  color: #999;
+  margin-top: 1px;
+}
+
+/* Detail panel (right) */
+.gs-detail {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 10px;
+  background: rgba(0,0,0,0.15);
+  border-left: 1px solid rgba(255,105,180,0.15);
+  overflow-y: auto;
+}
+
+.gs-jacket {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 200px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,105,180,0.3);
+  box-shadow: 0 4px 20px rgba(255,105,180,0.2);
+  overflow: hidden;
+}
+.gs-jacket-icon { font-size: 40px; margin-bottom: 4px; }
+.gs-jacket-title { font-size: 14px; font-weight: 700; color: #fff; text-align: center; padding: 0 8px; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+
+.gs-info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.gs-score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.gs-score-label { font-size: 11px; color: #888; }
+.gs-score-val { font-size: 14px; font-weight: 700; color: #FF69B4; }
+.gs-level { font-size: 18px; color: #FF69B4; }
+
+/* Difficulty row */
+.gs-diff-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+.gs-diff-btn {
+  flex: 1;
+  padding: 10px 4px;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.gs-diff-btn .gs-diff-label {
+  font-size: 9px;
+  font-weight: 800;
+  color: #aaa;
+  letter-spacing: 0.05em;
+}
+.diff-easy { border-color: rgba(79,195,247,0.4); }
+.diff-normal { border-color: rgba(102,187,106,0.4); }
+.diff-hard { border-color: rgba(255,152,0,0.4); }
+
+.gs-diff-active {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255,105,180,0.4);
+}
+.gs-diff-active.diff-easy { background: rgba(79,195,247,0.3); border-color: #4FC3F7; }
+.gs-diff-active.diff-easy .gs-diff-label { color: #4FC3F7; }
+.gs-diff-active.diff-normal { background: rgba(102,187,106,0.3); border-color: #66BB6A; }
+.gs-diff-active.diff-normal .gs-diff-label { color: #66BB6A; }
+.gs-diff-active.diff-hard { background: rgba(255,152,0,0.3); border-color: #FF9800; }
+.gs-diff-active.diff-hard .gs-diff-label { color: #FF9800; }
+
+/* Actions */
+.gs-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+.gs-random-btn {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: #aaa;
+  font-size: 11px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.3;
+}
+.gs-decide-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #FF69B4, #cc4488);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 15px rgba(255,105,180,0.4);
+  transition: all 0.2s;
+}
+.gs-decide-btn:hover {
+  background: linear-gradient(135deg, #ff7bc4, #dd5599);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255,105,180,0.5);
+}
+
+/* Responsive: 縦画面モード */
+@media (max-width: 700px), (orientation: portrait) {
+  .gs-main {
+    flex-direction: column;
+  }
+  .gs-categories {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,105,180,0.15);
+  }
+  .gs-cat-btn {
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .gs-detail {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    border-left: none;
+    border-top: 1px solid rgba(255,105,180,0.15);
+  }
+  .gs-jacket {
+    width: 100px;
+    max-height: 100px;
+    aspect-ratio: 1;
+  }
+  .gs-jacket-icon { font-size: 28px; }
+  .gs-info-panel { flex: 1; min-width: 150px; }
+  .gs-diff-row { width: 100%; }
+  .gs-actions { width: 100%; }
+  .gs-songlist { min-height: 200px; }
+}
