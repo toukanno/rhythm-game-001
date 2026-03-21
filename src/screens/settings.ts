@@ -68,6 +68,16 @@ function render(container: HTMLElement, onBack: () => void): void {
         </div>
       </div>
 
+      <div class="settings-section">
+        <h3 class="settings-section-title">画面モード</h3>
+        <div class="lane-toggle">
+          <button class="lane-toggle-btn ${(localStorage.getItem('rhythmOrientation') || 'auto') === 'auto' ? 'lane-toggle-btn--active' : ''}" id="btn-orient-auto">自動</button>
+          <button class="lane-toggle-btn ${localStorage.getItem('rhythmOrientation') === 'landscape' ? 'lane-toggle-btn--active' : ''}" id="btn-orient-landscape">横画面</button>
+          <button class="lane-toggle-btn ${localStorage.getItem('rhythmOrientation') === 'portrait' ? 'lane-toggle-btn--active' : ''}" id="btn-orient-portrait">縦画面</button>
+        </div>
+        <p class="settings-note">横画面はPC・タブレット向け、縦画面はスマホ向け</p>
+      </div>
+
       <div class="settings-actions">
         <button class="btn btn-secondary" id="btn-reset">リセット</button>
         <button class="btn btn-primary" id="btn-back">戻る</button>
@@ -160,6 +170,26 @@ function render(container: HTMLElement, onBack: () => void): void {
         const b = container.querySelector(bid);
         b?.classList.toggle('lane-toggle-btn--active', bval === val);
       }
+    });
+  }
+
+  // Orientation mode
+  const orientBtns: Array<{ id: string; val: string }> = [
+    { id: '#btn-orient-auto', val: 'auto' },
+    { id: '#btn-orient-landscape', val: 'landscape' },
+    { id: '#btn-orient-portrait', val: 'portrait' },
+  ];
+  for (const { id, val } of orientBtns) {
+    container.querySelector(id)?.addEventListener('click', () => {
+      localStorage.setItem('rhythmOrientation', val);
+      for (const { id: bid, val: bval } of orientBtns) {
+        const b = container.querySelector(bid);
+        b?.classList.toggle('lane-toggle-btn--active', bval === val);
+      }
+      // Apply orientation class to body
+      document.body.classList.remove('force-landscape', 'force-portrait');
+      if (val === 'landscape') document.body.classList.add('force-landscape');
+      else if (val === 'portrait') document.body.classList.add('force-portrait');
     });
   }
 
