@@ -1641,3 +1641,19 @@ html, body {
   .gs-actions { width: 100%; }
   .gs-songlist { min-height: 200px; }
 }
+
+/* ===== 画面モード強制 ===== */
+body.force-landscape .screen {
+  transform-origin: center center;
+}
+@media (orientation: portrait) {
+  body.force-landscape .screen {
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(90deg) translateY(-100%);
+    transform-origin: top left;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
