@@ -20,7 +20,15 @@ function artGradient(title: string): string {
   for (let i = 0; i < title.length; i++) hash = title.charCodeAt(i) + ((hash << 5) - hash);
   const h1 = Math.abs(hash % 360);
   const h2 = (h1 + 40) % 360;
-  return `linear-gradient(135deg, hsl(${h1},70%,55%), hsl(${h2},80%,45%))`;
+  const h3 = (h1 + 120) % 360;
+  return `linear-gradient(135deg, hsl(${h1},70%,45%), hsl(${h2},80%,35%), hsl(${h3},60%,30%))`;
+}
+
+function artIcon(title: string): string {
+  const icons = ['🎵', '🎶', '🎸', '🎹', '🎤', '🎧', '🎼', '🎺', '🥁', '🎻', '🎷', '🪗'];
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) hash = title.charCodeAt(i) + ((hash << 5) - hash);
+  return icons[Math.abs(hash) % icons.length];
 }
 
 /** Estimate a difficulty level (1-20) from note count & BPM */
@@ -61,9 +69,9 @@ function getMaxLevel(group: SongGroup): number {
 }
 
 const DIFF_META: Array<{ key: DifficultyOption; label: string; color: string }> = [
-  { key: 'EASY', label: 'Beginner', color: '#4FC3F7' },
-  { key: 'NORMAL', label: 'Skillful', color: '#66BB6A' },
-  { key: 'HARD', label: 'Expert', color: '#EF5350' },
+  { key: 'EASY', label: 'イージー', color: '#4FC3F7' },
+  { key: 'NORMAL', label: 'ノーマル', color: '#66BB6A' },
+  { key: 'HARD', label: 'エキスパート', color: '#EF5350' },
 ];
 
 export function renderSongSelectScreen(
@@ -116,14 +124,15 @@ export function renderSongSelectScreen(
     const item = document.createElement('div');
     item.className = 'ss2-item' + (idx === selectedIndex ? ' ss2-item--active' : '');
     item.dataset.idx = String(idx);
+    const icon = artIcon(group.title);
     item.innerHTML = `
-      <div class="ss2-item-art" style="background:${art}"></div>
+      <div class="ss2-item-art" style="background:${art}"><span class="ss2-art-icon">${icon}</span></div>
       <div class="ss2-item-info">
         <span class="ss2-item-title">${group.title}</span>
         <span class="ss2-item-artist">${group.artist}</span>
       </div>
       <span class="ss2-item-bpm">${group.bpm}</span>
-      <span class="ss2-item-lv">${maxLv}</span>
+      <span class="ss2-item-lv">Lv.${maxLv}</span>
     `;
     listEl.appendChild(item);
   });
@@ -136,7 +145,8 @@ export function renderSongSelectScreen(
     // Jacket
     const jacketEl = container.querySelector('#ss2-jacket') as HTMLElement;
     jacketEl.style.background = art;
-    jacketEl.innerHTML = `<div class="ss2-jacket-title">${group.title}</div><div class="ss2-jacket-artist">${group.artist}</div>`;
+    const icon = artIcon(group.title);
+    jacketEl.innerHTML = `<div class="ss2-jacket-icon">${icon}</div><div class="ss2-jacket-title">${group.title}</div><div class="ss2-jacket-artist">${group.artist}</div>`;
 
     // Meta info
     const metaEl = container.querySelector('#ss2-meta') as HTMLElement;
@@ -169,7 +179,7 @@ export function renderSongSelectScreen(
       btn.innerHTML = `
         <span class="ss2-diff-label">${dm.label}</span>
         <span class="ss2-diff-lv">${lv}</span>
-        <span class="ss2-diff-notes">${noteCount} notes</span>
+        <span class="ss2-diff-notes">${noteCount}ノーツ</span>
       `;
       btn.addEventListener('click', () => {
         selectedDiff = dm.key;
