@@ -1505,3 +1505,54 @@ html, body {
   font-weight: 600;
   text-shadow: 0 0 10px rgba(255,105,180,0.3);
 }
+
+/* ===== タイトルマスコット ===== */
+.title-mascot {
+  margin-bottom: 16px;
+  animation: mascotBounce 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 20px rgba(255,105,180,0.4));
+}
+@keyframes mascotBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ===== 横画面モード強制 ===== */
+@media (orientation: portrait) {
+  body.force-landscape #app {
+    width: 100vh !important;
+    height: 100vw !important;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    position: fixed;
+    top: 0;
+    left: 100vw;
+    overflow: hidden;
+  }
+  body.force-landscape .screen {
+    width: 100% !important;
+    height: 100% !important;
+    overflow-y: auto;
+  }
+}
+
+/* 縦画面強制 */
+@media (orientation: landscape) {
+  body.force-portrait #app {
+    width: 100vh !important;
+    height: 100vw !important;
+    transform: rotate(-90deg);
+    transform-origin: top left;
+    position: fixed;
+    top: 100vh;
+    left: 0;
+    overflow: hidden;
+  }
+}
+
+/* ===== カスタム読み込みモーダル ===== */
+.load-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+.load-tab { flex: 1; padding: 8px; border: 1px solid rgba(255,105,180,0.3); background: rgba(255,255,255,0.03); color: #999; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.load-tab-active { background: linear-gradient(135deg, rgba(255,105,180,0.2), rgba(139,92,246,0.15)); color: #FF69B4; border-color: #FF69B4; }
+.diff-select { padding: 6px 14px !important; border-radius: 16px !important; font-size: 12px !important; }
+.diff-active { background: linear-gradient(135deg, #FF69B4, #8B5CF6) !important; color: #fff !important; border-color: transparent !important; }
