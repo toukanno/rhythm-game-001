@@ -25,6 +25,12 @@ class App {
   }
 
   private async init(): Promise<void> {
+    // Apply saved orientation mode
+    const orient = localStorage.getItem('rhythmOrientation') || 'auto';
+    document.body.classList.remove('force-landscape', 'force-portrait');
+    if (orient === 'landscape') document.body.classList.add('force-landscape');
+    else if (orient === 'portrait') document.body.classList.add('force-portrait');
+
     this.showTitle();
     this.loadSongList();
   }
