@@ -69,16 +69,16 @@ export async function loadCustomBeatmap(): Promise<{ beatmap: Beatmap; audioFile
     // Tab switching
     modal.querySelector('#tab-mp3')!.addEventListener('click', () => {
       currentMode = 'mp3';
-      modal.querySelector('#mode-mp3')!.style.display = 'block';
-      modal.querySelector('#mode-json')!.style.display = 'none';
+      (modal.querySelector('#mode-mp3') as HTMLElement).style.display = 'block';
+      (modal.querySelector('#mode-json') as HTMLElement).style.display = 'none';
       modal.querySelector('#tab-mp3')!.classList.add('load-tab-active');
       modal.querySelector('#tab-json')!.classList.remove('load-tab-active');
       loadBtn.disabled = !mp3File;
     });
     modal.querySelector('#tab-json')!.addEventListener('click', () => {
       currentMode = 'json';
-      modal.querySelector('#mode-mp3')!.style.display = 'none';
-      modal.querySelector('#mode-json')!.style.display = 'block';
+      (modal.querySelector('#mode-mp3') as HTMLElement).style.display = 'none';
+      (modal.querySelector('#mode-json') as HTMLElement).style.display = 'block';
       modal.querySelector('#tab-json')!.classList.add('load-tab-active');
       modal.querySelector('#tab-mp3')!.classList.remove('load-tab-active');
       loadBtn.disabled = !(beatmapData && audioFile);
